@@ -21,6 +21,7 @@ var voting_time_limit = 5
 
 var max_question_id = 144
 
+/*
 //Connect to mongo
 MongoClient.connect(MONGODB_URI, { useNewUrlParser: true }, (err, cl) => {
 	if(err){
@@ -520,3 +521,4 @@ MongoClient.connect(MONGODB_URI, { useNewUrlParser: true }, (err, cl) => {
 		
 	});
 })
+*/

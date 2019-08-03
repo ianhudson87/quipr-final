@@ -17,7 +17,7 @@ const MongoClient = require('mongodb').MongoClient
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 4000;
+  port = 4001;
 }
 
 //const client = require('socket.io').listen(port).sockets

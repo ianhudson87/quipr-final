@@ -22,7 +22,7 @@ if (port == null || port == "") {
 
 //const client = require('socket.io').listen(port).sockets
 const io = require('socket.io');
-var client = socket(server).sockets;
+var client = io(server).sockets;
 console.log(port)
 
 var response_time_limit = 9999

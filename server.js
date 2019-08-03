@@ -23,7 +23,7 @@ var max_question_id = 144
 
 
 //Connect to mongo
-MongoClient.connect(mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/test?retryWrites=true&w=majority, { useNewUrlParser: true }, (err, cl) => {
+MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true }, (err, cl) => {
 	if(err){
 		throw err;
 	}

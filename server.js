@@ -8,7 +8,7 @@ app.get('/', function(request, response) {
   response.send('Hello World!')
 })
 
-app.listen(app.get('port'), function() {
+var server = app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
 
@@ -20,7 +20,9 @@ if (port == null || port == "") {
   port = 4000;
 }
 
-const client = require('socket.io').listen(port).sockets
+//const client = require('socket.io').listen(port).sockets
+const io = require('socket.io');
+var client = socket(server).sockets;
 console.log(port)
 
 var response_time_limit = 9999

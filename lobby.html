@@ -106,6 +106,7 @@
 			
 			// Handle array of players in game
 			socket.on('reload_lobby', (data) => {
+				console.log('here3')
 				var users = data.users_array
 				var users_list = ""
 				for(var x=0; x<users.length; x++){

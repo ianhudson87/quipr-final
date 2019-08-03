@@ -2,7 +2,7 @@
   "name": "quipr-test1",
   "version": "1.0.0",
   "description": "quipr first attempt",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"

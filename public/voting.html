@@ -133,14 +133,17 @@
 <input type="button" value="udpate" onclick="updateScoringTimer()">
 </html>
 			<button id="testing">test</button>
+			
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+<script src="connectSocket.js"></script>
 
 <script src="loadPrompts.js"></script>
 
 <script>
 	(function(){
 	
-		var socket_server_ip = ['http://192.168.1.88:4000', 'https://cb99026a.ngrok.io']
+		//var socket_server_ip = ['http://192.168.1.88:4000', 'https://cb99026a.ngrok.io']
 	
 		var element = function(id){
 			return document.getElementById(id);
@@ -158,7 +161,7 @@
 		game_name_display.innerHTML = "Room: " + localStorage.game_name
 		
 		// Connect to socket.io
-		var socket = io.connect(socket_server_ip[0]);
+		var socket = returnSocket(0)
 		
 		// Check for connection
 		if(socket !== undefined){

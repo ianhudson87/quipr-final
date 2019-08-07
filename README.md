@@ -1,6 +1,8 @@
-# quipr-test1
+# Quipr
 
-Deployed site: http://quipr-html.herokuapp.com/index.html
+Deployed site: http://quipr-html.herokuapp.com
+
+Created with Node.js, MongoDB, Socket.io, and other unimportant stuff
 	
 Heroku deployment instructions:
 	

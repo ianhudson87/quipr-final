@@ -351,7 +351,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 							games.insertOne({
 								name: data.game_name,
 								stage: 0,
-								timer: 0
+								timer: 0,
+								responses_done: 0
 							})
 							
 							users.insertOne({
@@ -535,6 +536,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// GAME STUFF
 		
+		// Handle user needing timer to update their display
 		socket.on('get_timer', (data) => {
 			games = db.collection('games')
 			games.find({'name': data.game_name}).toArray((err, res) => {
@@ -546,7 +548,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 		})
 		
-		
+		// Handle user submitting response
 		socket.on('response_submited', (data) => {
 			users = db.collection('users')
 			games = db.collection('games')
@@ -556,40 +558,50 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			games.find({'name': data.game_name}).toArray((err, res) => {
 				current_game_stage = res[0].stage
 				
-				// get first reponse and see if is blank to determine which fild to update (which prompt/question)
+				// get first reponse and see if is blank to determine which field to update (which prompt/question)
 				var response_one = -1
 				users.find({'name': data.user_name}).toArray((err, res) => {
-					//if currently on first prompt
-					if(current_game_stage == first_response_stage_num){
-						response_one = res[0].r1_q1_response
-					}
-					else{
-						response_one = res[0].r2_q1_response
-					}
+					// get first resposne based on current stage
+					response_one = current_game_stage==first_response_stage_num ? res[0].r1_q1_response : res[0].r2_q1_response
 					
 					// creating field string to update
 					var field_string = ""
-					if(current_game_stage == first_response_stage_num){
-						field_string += 'r1_'
-					}
-					else{
-						field_string += 'r2_'
-					}
-					if(response_one == ''){
-						field_string += 'q1_'
-					}
-					else{
-						field_string += 'q2_'
-						socket.emit('both_responses_done') // (responses for user done)
-						
-					}
+					
+					// Add round to field_string
+					field_string += current_game_stage==first_response_stage_num ? 'r1_' : 'r2_'
+					
+					// Add question number to field_string
+					field_string += response_one=='' ? 'q1_' : 'q2_'
+					
 					field_string += 'response'
+					
+					if(response_one != ''){
+						socket.emit('both_responses_done') // (responses for user done)
+					}
 					
 					// update the responses in the database
 					users.updateOne({'name': data.user_name}, {$set: {[field_string]: data.response}})
 					
-					// TODO: make this not just a timeout. Need to update the db first (line above) then check to see if all second responses are filled
 					// Check to see if all users have responded twice. If so, move onto next page
+					games.find({'name': data.game_name}).toArray((err, res) => {
+						// res = array of games with same game_name.
+						users.find({'game_name': data.game_name}).toArray((err, res2) => {
+							// res2 = array of all players in the game
+							if(res[0].responses_done >= res2.length * 2 - 1){
+								// Last response is being input. Reset the responses_done counter
+								moveToVotingAndLoop(data.game_name)
+								games.updateOne({'name': data.game_name}, {$set: {'responses_done': 0}})
+							}
+							else{
+								// Current response is not the last one
+								games.updateOne({'name': data.game_name}, {$inc: {'responses_done': 1}})
+							}
+						})
+					})
+					
+					
+					
+					/*
 					users.find({'game_name': data.game_name}).toArray((err, res) => {
 						var attribute = current_game_stage==first_response_stage_num ? 'r1_q2_response' : 'r2_q2_response'
 						
@@ -608,6 +620,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 							}
 						}
 					})
+					*/
 					
 					
 				})

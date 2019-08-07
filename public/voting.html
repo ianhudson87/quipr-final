@@ -222,7 +222,11 @@
 				vote_p2_btn_area.innerHTML = ''
 			})
 			
-			//
+			// Handling moving to scoreboard
+			socket.on('move_to_scoreboard', () => {
+				console.log('hi2')
+				window.location.replace('scoreboard.html')
+			})
 			
 		}
 		

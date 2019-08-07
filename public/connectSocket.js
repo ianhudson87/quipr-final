@@ -1,13 +1,6 @@
-/*let port = process.env.PORT;
-if (port == null || port == "") {
-  port = '4000';
-}*/
-
-var port = '5000'
-
 function returnSocket(connectionType){
-	// connectionType: 0=localhost 1=ngrok
+	// connectionType: 0=localhost 1=ngrok, 2=heroku
 	
-	var socket_server_ip = ['https://stark-scrubland-68406.herokuapp.com/', 'https://cb99026a.ngrok.io']
+	var socket_server_ip = ['http://localhost:4000', 'https://cb99026a.ngrok.io', 'https://stark-scrubland-68406.herokuapp.com/']
 	return io.connect(socket_server_ip[connectionType]);
 }

@@ -75,6 +75,8 @@
 </tbody>
 </table>
 <span id="php"></span>
+
+	<button id="clearEverything">test clear</button>
 </html>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
@@ -169,50 +171,11 @@
 				window.location.replace('lobby.html')
 			})
 			
-			/*
-			// Handle Output
-			socket.on('output', function(data){
-				//console.log(data);
-				if(data.length){
-					for(var x = 0;x < data.length;x++){
-						// Build out message div
-						var message = document.createElement('div');
-						message.setAttribute('class', 'chat-message');
-						message.textContent = data[x].name+": "+data[x].message;
-						messages.appendChild(message);
-						messages.insertBefore(message, messages.firstChild);
-					}
-				}
-			});
-			// Get Status From Server
-			socket.on('status', function(data){
-				// get message status
-				setStatus((typeof data === 'object')? data.message : data);
-				// If status is clear, clear text
-				if(data.clear){
-					textarea.value = '';
-				}
-			});
-			// Handle Input
-			textarea.addEventListener('keydown', function(event){
-				if(event.which === 13 && event.shiftKey == false){
-					// Emit to server input
-					socket.emit('input', {
-						name:username.value,
-						message:textarea.value
-					});
-					event.preventDefault();
-				}
+			// TESTING ONLY
+			var clearbutton = element('clearEverything')
+			clearbutton.addEventListener('click', () => {
+				socket.emit('b')
 			})
-			// Handle Chat Clear
-			clearBtn.addEventListener('click', function(){
-				socket.emit('clear');
-			});
-			// Clear Message
-			socket.on('cleared', function(){
-				messages.textContent = '';
-			});
-			*/
 		}
 	})();
 </script>

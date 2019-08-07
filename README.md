@@ -29,3 +29,12 @@ to do:
 		users can reload page and see a textbox again when they aren't supposed to
 		
 	shuffle res before showPromptAndAnswersWithDelay
+	
+	
+Heroku set up:
+	create heroku app
+	go into project directory
+	add engine in package.json
+	create 'Procfile' with cmd commands
+	git rm add [git repo of the heroku app]
+	git push heroku master

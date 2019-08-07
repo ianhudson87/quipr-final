@@ -1,40 +1,39 @@
 # quipr-test1
- 
-to start server: [npm run dev] or [node server.js]
 
-stages:
-	1. first prompting
-		timer: 60s
-	2. first voting
+Deployed site: http://quipr-html.herokuapp.com/index.html
+	
+Heroku deployment instructions:
+	1. Create heroku app
+	2. Add engine property for node in package.json
+	3. Go into project parent directory using command line
+	4. Create 'Procfile' with cmd commands
+	5. git rm add [git repo of the heroku app]
+	6. git push heroku master
+	7. Or just go look at this link: https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment
+	
+For source code:
+	stages:
+		1. first prompting
+		2. first voting
+		3. scores
+		4. second prompting
+		5. second voting
+		6. scores
 		
-	3. scores
-	4. second prompting
-	5. second voting
-	6. scores
+TODO:
+	Convert html to ReactJS. HUZ!!! 😶
 	
-to do:
-	make sure that the inputs can't be just a blank thing in the game and username
+	Input validation for username, gamename, and responses
 	
-	check to see if all answers have been submitted when 'response_submitted' is emitted by client
-	
-	when game is finished:
+	When game is finished:
 		clear room
 		clear database
 		delete player
 	
-	on disconnect:
+	On disconnect:
 		remove from room
 		
-	on response page:
+	On response page:
 		users can reload page and see a textbox again when they aren't supposed to
 		
-	shuffle res before showPromptAndAnswersWithDelay
-	
-	
-Heroku set up:
-	create heroku app
-	go into project directory
-	add engine in package.json
-	create 'Procfile' with cmd commands
-	git rm add [git repo of the heroku app]
-	git push heroku master
+	Shuffle res before showPromptAndAnswersWithDelay

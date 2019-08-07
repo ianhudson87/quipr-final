@@ -3,6 +3,7 @@
 Deployed site: http://quipr-html.herokuapp.com/index.html
 	
 Heroku deployment instructions:
+	
 	1. Create heroku app
 	2. Add engine property for node in package.json
 	3. Go into project parent directory using command line
@@ -11,8 +12,10 @@ Heroku deployment instructions:
 	6. git push heroku master
 	7. Or just go look at this link: https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment
 	
-For source code:
+For source code reference:
+	
 	stages:
+		
 		1. first prompting
 		2. first voting
 		3. scores
@@ -21,6 +24,7 @@ For source code:
 		6. scores
 		
 TODO:
+	
 	Convert html to ReactJS. HUZ!!! 😶
 	
 	Input validation for username, gamename, and responses

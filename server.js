@@ -251,7 +251,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			games.find({'name': game_name}).toArray((err, res) => {
 				console.log(res)
 				console.log(res[0].stage + '--stage')
-				var round_num = res[0].stage == first_voting_stage_num ? 1 : 2
+				var round_num = res[0].stage <= first_voting_stage_num ? 1 : 2 // TODO: sometimes updateOne (6 lines above) doesn't work in time for this line. Hot fix is to use <=
 				
 				// get all users in the same game
 				users.find({'game_name': game_name}).toArray((err, res) => {

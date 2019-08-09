@@ -57,6 +57,6 @@ if(socket !== undefined){
             game_name: localStorage.game_name,
             room_name: localStorage.game_name
         })
-        window.location.replace('../lobby/lobby.html');
+        window.location.replace('../lobby.html');
     })
 }

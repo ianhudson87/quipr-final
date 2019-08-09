@@ -458,12 +458,11 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// reload the users list
 		socket.on('reload_lobby', (data) => {
-			console.log('here1')
 			users = db.collection('users')
 			
 			// find all users with same game_name
 			users.find({'game_name': data.game_name}).toArray(function(err, res){
-				console.log('here2')
+				console.log(res)
 				client.emit('reload_lobby',{
 					users_array: res
 				})

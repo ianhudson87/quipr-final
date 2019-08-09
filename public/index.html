@@ -1,181 +1,26 @@
+<!DOCTYPE html>
 <html>
-<table style="height: 87px; background-color: #666666; border-color: #000000; margin-left: auto; margin-right: auto;" border="7" width="500">
-<tbody>
-<tr>
-<td style="width: 636px; border-color: #000000;">
-<h1 style="text-align: center;"><strong><span style="color: #ff9900;">oof</span></strong></h1>
-</td>
-</tr>
-</tbody>
-</table>
-<table style="height: 486px; background-color: #666666; border-color: #222222; margin-left: auto; margin-right: auto; width: 500px;" border="5"><caption>
-<h2><span style="color: #800080;">Play!</span></h2>
-</caption>
-<tbody>
-<tr>
-<td style="width: 250px;">
-<table style="height: 423px; margin-left: auto; margin-right: auto;" width="218">
-<tbody>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-<h2><strong><span style="color: #00ff00;">Createa a Game</span></strong></h2>
-<p>&nbsp;</p>
-</td>
-</tr>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-	<input id="create_user_name_txt" type="text" placeholder="User Name">
-</td>
-</tr>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-	<input id="create_game_name_txt" type="text" placeholder="Room Name">
-</td>
-</tr>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-	<span id="invalid_create"><br></span>
-	<br>
-	<button id="create_game_btn">Create Game!</button>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td style="width: 250px;">
-<table style="height: 423px; margin-left: auto; margin-right: auto;" width="218">
-<tbody>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-<h2><span style="color: #00ccff;">Join a Game</span></h2>
-<p>&nbsp;</p>
-</td>
-</tr>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-	<input id="join_user_name_txt" type="text" placeholder="User Name">
-</td>
-</tr>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-	<input id="join_game_name_txt" type="text" placeholder="Room Name">
-</td>
-</tr>
-<tr>
-<td style="width: 211.016px; text-align: center;">
-	<span id="invalid_join"><br></span>
-	<br>
-	<button id="join_game_btn">Join Game!</button>
-</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-<span id="php"></span>
+  <head>
+    <meta charset="UTF-8" />
+    <title>QuipR</title>
+    <link href="./mainpage/mainPageStyles.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <!-- We will put our React component inside this div. -->
+    <div id="root"></div>
 
-	<button id="clearEverything">test clear</button>
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+
+    <!--Loading the socket Components-->
+    <script src="./connectSocket.js"></script>
+    <script src="./mainpage/preGame.js"></script>
+
+    <!-- Load our React component. -->
+    <script src="./mainpage/test.js"></script>
+  </body>
 </html>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
-
-<script src="connectSocket.js"></script>
-
-<script>
-	(function(){
-	
-		//var socket_server_ip = ['http://192.168.1.88:4000', 'https://cb99026a.ngrok.io']
-	
-		var element = function(id){
-			return document.getElementById(id);
-		}
-		// Get Elements
-		var create_user_name_txt = element('create_user_name_txt');
-		var create_game_name_txt = element('create_game_name_txt');
-		var invalid_create = element('invalid_create');
-		var create_game_btn = element('create_game_btn');
-		
-		var join_user_name_txt = element('join_user_name_txt');
-		var join_game_name_txt = element('join_game_name_txt');
-		var invalid_join = element('invalid_join');
-		var join_game_btn = element('join_game_btn');
-
-		// Connect to socket.io
-		var socket = returnSocket(0)
-		
-		// Check for connection
-		if(socket !== undefined){
-			console.log('Connected to socket...');
-			
-			// Handle CREATE button click
-			create_game_btn.addEventListener('click', function(){
-				socket.emit('create_game', {
-					user_name: create_user_name_txt.value,
-					game_name: create_game_name_txt.value
-				});
-			});
-			
-			// Handle duplicate username and game name
-			socket.on('duplicate_create_game_name', () => {
-				invalid_create.innerHTML = "bad game name"
-			})
-			
-			socket.on('duplicate_create_user_name', () => {
-				invalid_create.innerHTML = "bad user name"
-			})
-			
-			// Handle valid user name and game name
-			socket.on('valid_create', (data) => {
-				localStorage.user_name = data.user_name
-				localStorage.game_name = data.game_name
-				localStorage.is_owner = true
-				window.location.replace('lobby.html')
-			})
-			
-			// Handle JOIN button click
-			join_game_btn.addEventListener('click', function(){
-				socket.emit('join_game', {
-					user_name: join_user_name_txt.value,
-					game_name: join_game_name_txt.value
-				});
-			});
-			
-			// Handle duplicate username and game name
-			socket.on('duplicate_join_game_name', () => {
-				invalid_create.innerHTML = "bad game name"
-			})
-			
-			socket.on('duplicate_join_user_name', () => {
-				invalid_create.innerHTML = "bad user name"
-			})
-			
-			// Handle valid user name and game name
-			socket.on('valid_join', (data) => {
-				localStorage.user_name = data.user_name,
-				localStorage.game_name = data.game_name,
-				localStorage.is_owner = false
-				
-				// joing room so socket knows which room to look for
-				socket.emit('join_room', {
-					room_name: join_game_name_txt.value
-				})
-				
-				// make sure the users in the same lobby as the new player have their list updated
-				socket.emit('new_player', {
-					game_name: localStorage.game_name,
-					room_name: localStorage.game_name
-				})
-
-				window.location.replace('lobby.html')
-			})
-			
-			// TESTING ONLY
-			var clearbutton = element('clearEverything')
-			clearbutton.addEventListener('click', () => {
-				socket.emit('b')
-			})
-		}
-	})();
-</script>

@@ -47,3 +47,9 @@ TODO:
 		users can reload page and see a textbox again when they aren't supposed to
 		
 	Shuffle res before showPromptAndAnswersWithDelay
+	
+	Disconnect users and remove game from db if user disconnects
+	
+	Redirect users to correct game page if they load an incorrect page
+	
+	Remove reponse from textbox when entered

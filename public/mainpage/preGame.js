@@ -23,7 +23,7 @@ if(socket !== undefined){
         localStorage.user_name = data.user_name + " 👍🏾";
         localStorage.game_name = data.game_name;
         localStorage.is_owner = true;
-        window.location.replace('../lobby/lobby.html');
+        window.location.replace('./lobby.html');
     });
 
     //join button is pressed!

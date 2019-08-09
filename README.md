@@ -30,11 +30,17 @@ For source code reference:
 		
 TODO:
 	
+	Huz:
+	
 	Convert html to ReactJS. HUZ!!! 😶
 	--yeah, yeah. I got it
 	
 	Input validation for username, gamename, and responses
 	
+	Remove reponse from textbox when entered
+	
+	Ian:
+
 	When game is finished:
 		clear room
 		clear database
@@ -52,4 +58,4 @@ TODO:
 	
 	Redirect users to correct game page if they load an incorrect page
 	
-	Remove reponse from textbox when entered
+	

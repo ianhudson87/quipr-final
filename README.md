@@ -24,10 +24,14 @@ For source code reference:
 		4. second prompting
 		5. second voting
 		6. scores
+		7. third prompting
+		8. third voting
+		9. scores
 		
 TODO:
 	
 	Convert html to ReactJS. HUZ!!! 😶
+	--yeah, yeah. I got it
 	
 	Input validation for username, gamename, and responses
 	

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>QuipR</title>
+    <link href="./mainpage/mainPageStyles.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <!-- We will put our React component inside this div. -->
+    <div id="root"></div>
+
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+
+    <!--Loading the socket Components-->
+    <script src="./connectSocket.js"></script>
+    <script src="./mainpage/preGame.js"></script>
+
+    <!-- Load our React component. -->
+    <script src="./mainpage/test.js"></script>
+  </body>
+</html>

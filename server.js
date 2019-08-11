@@ -66,6 +66,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			// Either clear the entire game or go onto the next stage
 			if(isLastPlayer){
+				client.in(game_name).emit('display_players')
 				games = db.collection('games')
 				setTimeout(() => {
 					games.find({'name': game_name}).toArray((err, res) => {

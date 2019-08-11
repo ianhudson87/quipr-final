@@ -59,6 +59,7 @@ class Lobii extends React.Component {
     
   }
   emptyResp() {
+    console.log("here");
     this.setState({
       Response:""
     })

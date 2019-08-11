@@ -67,7 +67,7 @@ if(socket !== undefined) {
     // Handling moving to scoreboard
     socket.on('move_to_scoreboard', () => {
         console.log('hi2');
-        window.location.replace('./score/scoreboard.html');
+        window.location.replace('../score/scoreboard.html');
     });
 
     // Handling showing who users voted for

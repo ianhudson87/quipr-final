@@ -29,7 +29,7 @@ class Lobii extends React.Component {
     });
   }
   //sets the time to max time. Then will count down to cero? yeah.
-  setTime(time){
+  startTime(time){
     this.setState({
       timer:time
     });

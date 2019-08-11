@@ -31,13 +31,7 @@ For source code reference:
 TODO:
 	
 	Huz:
-	
-	Convert html to ReactJS. HUZ!!! 😶
-	--yeah, yeah. I got it
-	
-	Input validation for username, gamename, and responses
-	
-	Remove reponse from textbox when entered
+	Printin' names all day long takes all day. Print them one by one. ScoreScript stuff.
 	
 	Ian:
 	

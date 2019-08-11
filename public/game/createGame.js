@@ -13,7 +13,7 @@ class Lobii extends React.Component {
         roundNumber:0,
         questionNumber:0,
         timer:0,
-        Question:"\"Why did the chicken cross the road?\"",
+        Question:"",
         Response:"",
     };
     window.reactComponent=this;
@@ -56,6 +56,9 @@ class Lobii extends React.Component {
   submitAnswer = (e) => {
     e.preventDefault();
     SubmitScriptRun(this.state.Response);
+    
+  }
+  emptyResp() {
     this.setState({
       Response:""
     })

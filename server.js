@@ -42,7 +42,7 @@ const voting_time_limit = 5
 
 const max_question_id = 144
 
-const time_between_showing_users_score = 0 // For scoreboard
+const time_between_showing_users_score = 1 // For scoreboard
 
 
 // Connect to mongo

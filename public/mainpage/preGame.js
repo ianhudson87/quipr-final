@@ -20,7 +20,7 @@ if(socket !== undefined){
     });
 
     socket.on('valid_create', (data) => {
-        localStorage.user_name = data.user_name + " 👍🏾";
+        localStorage.user_name = data.user_name;
         localStorage.game_name = data.game_name;
         localStorage.is_owner = true;
         window.location.replace('./lobby/lobby.html');

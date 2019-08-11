@@ -66,6 +66,7 @@
 <td id="button1">
 
 	<span id="vote_p1_btn_area"></span>
+	<span id="voters_for_p1_area"></span>
 	
 </td>
 </tr>
@@ -103,6 +104,7 @@
 <td id="button2">
 
 	<span id="vote_p2_btn_area"></span>
+	<span id="voters_for_p2_area"></span>
 
 </td>
 </tr>
@@ -154,9 +156,11 @@
 		var user1_display = element('user1_display')
 		var answer1_display = element('answer1_display')
 		var vote_p1_btn_area = element('vote_p1_btn_area')
+		var voters_for_p1_area = element('voters_for_p1_area')
 		var user2_display = element('user2_display')
 		var answer2_display = element('answer2_display')
 		var vote_p2_btn_area = element('vote_p2_btn_area')
+		var voters_for_p2_area = element('voters_for_p2_area')
 		
 		game_name_display.innerHTML = "Room: " + localStorage.game_name
 		
@@ -226,6 +230,27 @@
 			socket.on('move_to_scoreboard', () => {
 				console.log('hi2')
 				window.location.replace('scoreboard.html')
+			})
+			
+			// Handling showing who users voted for
+			socket.on('show_users_votes', (data) => {
+				var voters_names_for_p1 = data.votes_for_p1.map((user) => {
+					return user.name
+				})
+				var voters_names_for_p2 = data.votes_for_p2.map((user) => {
+					return user.name
+				})
+				for(var x=0; x<voters_names_for_p1.length; x++){
+					voters_for_p1_area.insertAdjacentHTML('afterbegin', voters_names_for_p1[x]);
+				}
+				for(var x=0; x<voters_names_for_p2.length; x++){
+					voters_for_p2_area.insertAdjacentHTML('afterbegin', voters_names_for_p2[x]);
+				}
+			})
+			
+			socket.on('hide_users_votes', () => {
+				voters_for_p1_area.innerHTML = ''
+				voters_for_p2_area.innerHTML = ''
 			})
 			
 		}

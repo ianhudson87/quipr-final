@@ -75,6 +75,7 @@ if(socket !== undefined) {
             game_name: localStorage.game_name,
             room_name: localStorage.game_name
         });
+        console.log("got here first");
         window.reactComponent.emptyResp();
     }
 

@@ -1,4 +1,4 @@
-var gamePath = '../game/gameLook.html'
+var gamePath = '../game/game.html'
 
 
 //any part that needs to reference the DOM must go in this function below or a Socket "ON" functions.

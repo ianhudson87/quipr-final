@@ -80,13 +80,13 @@ if(socket !== undefined) {
             return user.name
         })
         //sends the arrays made above to the react file.
-        setP1VoteArray(voters_names_for_p1);
-        setPVoteArray(voters_names_for_p2);
+        window.reactComponent.setP1VoteArray(voters_names_for_p1);
+        window.reactComponent.setPVoteArray(voters_names_for_p2);
     })
     
     socket.on('hide_users_votes', () => {
         //sends empty arrays to the p1 and p2 arrays in the react script.
-        setP1VoteArray([""]);
-        setPVoteArray([""]);
+        window.reactComponent.setP1VoteArray([""]);
+        window.reactComponent.setPVoteArray([""]);
     })
 }

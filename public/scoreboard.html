@@ -74,8 +74,6 @@
 <script>
 	(function(){
 	
-		//var socket_server_ip = ['http://192.168.1.88:4000', 'https://cb99026a.ngrok.io']
-	
 		var element = function(id){
 			return document.getElementById(id)
 		}
@@ -115,7 +113,7 @@
 			
 			// Handle moving to next round of responses
 			socket.on('move_to_reponses', () => {
-				window.location.replace('game.html')
+				window.location.replace('/game/game.html')
 			})
 			
 			// Handle request to remove user from current room

@@ -623,7 +623,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					})
 					
 					
-					
 					/*
 					users.find({'game_name': data.game_name}).toArray((err, res) => {
 						var attribute = current_game_stage==first_response_stage_num ? 'r1_q2_response' : 'r2_q2_response'

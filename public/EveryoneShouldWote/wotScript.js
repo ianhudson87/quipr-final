@@ -69,4 +69,24 @@ if(socket !== undefined) {
         console.log('hi2');
         window.location.replace('./score/scoreboard.html');
     });
+
+    // Handling showing who users voted for
+    socket.on('show_users_votes', (data) => {
+        var voters_names_for_p1 = data.votes_for_p1.map((user) => {
+            return user.name
+        })
+
+        var voters_names_for_p2 = data.votes_for_p2.map((user) => {
+            return user.name
+        })
+        //sends the arrays made above to the react file.
+        setP1VoteArray(voters_names_for_p1);
+        setPVoteArray(voters_names_for_p2);
+    })
+    
+    socket.on('hide_users_votes', () => {
+        //sends empty arrays to the p1 and p2 arrays in the react script.
+        setP1VoteArray([""]);
+        setPVoteArray([""]);
+    })
 }

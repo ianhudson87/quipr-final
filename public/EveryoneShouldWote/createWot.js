@@ -15,6 +15,8 @@ class Lobii extends React.Component {
         Question:"\"Why did the chicken cross the road?\"",
         Response:"This is the left answer?",
         Response2:"This is the right (posfewfwefaewfafewitional) answer?",
+        playersVote1:[],
+        playersVote2:[],
     };
     window.reactComponent=this;
   }
@@ -41,6 +43,16 @@ class Lobii extends React.Component {
   setQuestion(Question){
     this.setState({
         Question:Question
+    });
+  }
+  setP1VoteArray(array){
+    this.setState({
+      playersVote1:array,
+    })
+  }
+  setP2VoteArray(array){
+    this.setState({
+      playersVote2:array,
     });
   }
   //sets responses states to the proper ones. React displays them live.
@@ -80,6 +92,19 @@ class Lobii extends React.Component {
 
   //renders to the "html" page to the web to your computer~...
   render() {
+
+    const voter1List = this.state.playersVote1.map(player => {
+      return(
+        c("p",{key:player},player)
+      );
+    });
+
+    const voter2List = this.state.playersVote2.map(player => {
+      return (
+        c("p", {key:player}, player)
+      );
+    });
+
     return(
       //c is React.createElement, btw. See line 2
         c("div", {id: "stage"}, 
@@ -94,10 +119,12 @@ class Lobii extends React.Component {
                 c("br", null),
                 c("div",{className:"row"},
                     c("div",{className:"column"},
-                        c("p",{id:"answer1"},this.state.Response)
+                        c("p",{id:"answer1"},this.state.Response),
+                        c("div",{id:"vote1"},voter1List)
                     ),
                     c("div",{className:"column"},
-                        c("p",{id:"answer2"},this.state.Response2)
+                        c("p",{id:"answer2"},this.state.Response2),
+                        c("div",{id:"vote2"},voter2List)
                     )
                 ),
                 c("hr", null),

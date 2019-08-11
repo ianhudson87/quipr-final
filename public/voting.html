@@ -66,7 +66,7 @@
 <td id="button1">
 
 	<span id="vote_p1_btn_area"></span>
-	<span id="voters_for_p1_area"></span>
+	<span id="voters_for_p1_area" style="border-width: 10px;border-color: greenyellow; border-style: dotted">few</span>
 	
 </td>
 </tr>
@@ -234,9 +234,11 @@
 			
 			// Handling showing who users voted for
 			socket.on('show_users_votes', (data) => {
+				
 				var voters_names_for_p1 = data.votes_for_p1.map((user) => {
 					return user.name
 				})
+
 				var voters_names_for_p2 = data.votes_for_p2.map((user) => {
 					return user.name
 				})

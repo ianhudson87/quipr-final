@@ -42,12 +42,22 @@ class LikeButton extends React.Component {
   //event handelr for the create game button
   createGame= (e) => {
     e.preventDefault();
-    CreateButtonClicked(this.state.createUserName,this.state.createGameName);
+    if(this.state.createUserName != "" || this.state.createGameName != ""){
+      CreateButtonClicked(this.state.createUserName,this.state.createGameName);
+    }
+    else{
+      alert("You must've forgot to enter something into the field")
+    }
   }
   //event handeler for the join game button
   joinGame= (e) =>{
     e.preventDefault();
-    JoinButtonClicked(this.state.joinUserName, this.state.joinGameName);
+    if(this.state.joinUserName != "" || this.state.joinGameName != ""){
+      JoinButtonClicked(this.state.joinUserName, this.state.joinGameName);
+    }
+    else{
+      alert("You must've forgot to enter something into the field")
+    }
   }
 
   //react stuff. Don't look below or risk losing atleast 2.4 seconds of your life

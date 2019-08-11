@@ -99,9 +99,11 @@
 			})
 			
 			// Handle showing players
+			//ask ian for help i dont even know how to begin to do this...
 			socket.on('show_player_score', (data) => {
 				console.log('show player')
 				var display_txt = data.user_name + ': ' + data.score + '<br>'
+
 				noobs.insertAdjacentHTML('afterbegin', display_txt);
 			})
 			

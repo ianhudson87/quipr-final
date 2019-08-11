@@ -22,7 +22,7 @@ class Lobii extends React.Component {
   }
   printLosers(list){
     this.setState({
-      scoresList: this.state.scoresList.push(list),
+      scoresList: this.state.scoresList.concat(list)
     })
   }
 

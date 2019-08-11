@@ -12,9 +12,9 @@ class Lobii extends React.Component {
         gameName:"ph",
         roundNumber:0,
         timer:0,
-        Question:"\"Why did the chicken cross the road?\"",
-        Response:"This is the left answer?",
-        Response2:"This is the right (posfewfwefaewfafewitional) answer?",
+        Question:"",
+        Response:"",
+        Response2:"",
         playersVote1:[],
         playersVote2:[],
     };

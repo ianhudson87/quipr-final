@@ -1,3 +1,4 @@
+
 function reactDone(){
     console.log("react is done loading");
     window.reactComponent.setGameName(localStorage.game_name);

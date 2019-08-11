@@ -1,4 +1,4 @@
-var socket = returnSocket(0);
+var socket = returnSocket();
 
 if(socket !== undefined){
     console.log('Connected to socket!');

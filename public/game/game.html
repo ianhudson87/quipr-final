@@ -70,8 +70,6 @@
 <script>
 	(function(){
 	
-		//var socket_server_ip = ['http://192.168.1.88:4000', 'https://cb99026a.ngrok.io']
-	
 		var element = function(id){
 			return document.getElementById(id);
 		}
@@ -87,7 +85,7 @@
 		game_name_display.innerHTML = "Room: " + localStorage.game_name
 		
 		// Connect to socket.io
-		var socket = returnSocket(0)
+		var socket = returnSocket()
 		
 		// Check for connection
 		if(socket !== undefined){

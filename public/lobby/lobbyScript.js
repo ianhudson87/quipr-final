@@ -11,7 +11,7 @@ function reactDone(){
     
 }
 
-var socket = returnSocket(0)
+var socket = returnSocket()
 
 if(socket != undefined) {
 

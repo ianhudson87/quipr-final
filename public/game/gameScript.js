@@ -2,6 +2,10 @@ function reactDone() {
     //this function is in createGame.js, same folder. This is noted by the 'window.reactocmponent' part before it...
     //look for similar stuff later in this script.
     window.reactComponent.setGameName(localStorage.game_name);
+    //get timer initial count
+    socket.emit('get_timer', {
+        game_name: localStorage.game_name
+    })
     sendPromptRequest(1);
 }
 
@@ -19,11 +23,7 @@ if(socket !== undefined) {
         })
     })
 
-    //get timer initial count
-    socket.emit('get_timer', {
-        game_name: localStorage.game_name
-    })
-
+    
     // set timer to initial count
     socket.on('update_timer_display', (data) => {
         window.reactComponent.startTime(data.time);

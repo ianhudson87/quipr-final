@@ -35,9 +35,9 @@ TODO:
 	
 	Ian:
 	
-	[] After vote tally, use inc
+	- [] After vote tally, use inc
 	
-	[] On disconnect:
+	- [] On disconnect:
 		remove from room
 			in server: on disconnect, broadcast to people in game to end game (use same emit as when game ends properly)
 			create js function that does all the things as when game ends. Import it into all of the pages. Add socket listener for game end on every page

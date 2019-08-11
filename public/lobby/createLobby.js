@@ -1,5 +1,8 @@
+//god knows what this means
 'use strict';
-const c=React.createElement;
+
+//a handy shortcut. get used to it.
+const c = React.createElement;
 
 class Lobii extends React.Component {
     

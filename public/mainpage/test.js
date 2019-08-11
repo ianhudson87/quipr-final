@@ -1,4 +1,8 @@
+//god knows what this means
 'use strict';
+
+//a handy shortcut. get used to it.
+const c = React.createElement;//I dont think i used it at all here...I do use it in future react files tho...
 
 class LikeButton extends React.Component {
   constructor(props) {
@@ -11,41 +15,42 @@ class LikeButton extends React.Component {
       joinGameName: " "
     };
   }
-
+  //whenever something is typed in create_username, this function runs and saves the new info as a state
   HandleCreateUserNameChange = (e) => {
     this.setState({
       createUserName: e.target.value,
     });
   }
-
+//whenever something is typed in create_gamename, this function runs and saves the new info as a state
   HandleCreateGameNameChange = (e) => {
     this.setState({
       createGameName: e.target.value
     });
   }
-
+//whenever something is typed in join_username, this function runs and saves the new info as a state
   HandleJoinUserNameChange = (e) => {
     this.setState({
       joinUserName: e.target.value
     });
   }
-
+//whenever something is typed in join_Gamename, this function runs and saves the new info as a state
   HandleJoinGameNameChange = (e) =>{
     this.setState({
       joinGameName: e.target.value
     });
   }
-
+  //event handelr for the create game button
   createGame= (e) => {
     e.preventDefault();
     CreateButtonClicked(this.state.createUserName,this.state.createGameName);
   }
-
+  //event handeler for the join game button
   joinGame= (e) =>{
     e.preventDefault();
     JoinButtonClicked(this.state.joinUserName, this.state.joinGame);
   }
 
+  //react stuff. Don't look below or risk losing atleast 2.4 seconds of your life
   render() {
     return React.createElement("div", null, React.createElement("h1", {
       id: "GameTitle"

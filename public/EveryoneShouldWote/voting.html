@@ -2,11 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>QuipR - Lobby</title>
-    <link href="./lobbyStyle.css" rel="stylesheet" type="text/css">
+    <title>Round End!</title>
+    <link href="./wotStyle.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-  
     <!-- We will put our React component inside this div. -->
     <div id="root"></div>
 
@@ -16,11 +15,12 @@
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
-    <!--Loading the Socket Components-->
+
+    <!--Loading the socket Components-->
     <script src="../connectSocket.js"></script>
-    <script src="lobbyScript.js"></script>
+    <script src="./wotScript.js"></script>
+
     <!-- Load our React component. -->
-    <script src="createLobby.js"></script>
-    
+    <script src="./createWot.js"></script>
   </body>
 </html>

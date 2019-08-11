@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ScoreBoard!</title>
+    <link href="./scoreStyle.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <!-- We will put our React component inside this div. -->
+    <div id="root"></div>
+
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+    <!--Loading the socket Components-->
+    <script src="../connectSocket.js"></script>
+    <script src="./scoreScript.js"></script>
+
+    <!-- Load our React component. -->
+    <script src="./createScore.js"></script>
+  </body>
+</html>

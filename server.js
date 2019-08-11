@@ -640,7 +640,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					var attribute_string = 'r' + round + '_' + 'q' + data.prompt_num + '_id'
 					var prompt_id = res[0][attribute_string]
 					socket.emit('display_prompt', {
-						prompt_id: prompt_id
+						prompt_id: prompt_id,
+						prompt_num:data.prompt_num
 					})
 				})
 			})

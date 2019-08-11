@@ -1,5 +1,6 @@
-function getPromptFromIdAndDisplay(prompt_id, display){
-	display.innerHTML = prompts[prompt_id]
+function getPromptFromIdAndDisplay(prompt_id){
+    //now it returns a string instead of printing to website by default.
+	return prompts[prompt_id];
 }
 
 prompts = ["What two words would passengers never want to hear a pilot say?",//I'm drunk, Im drunk 

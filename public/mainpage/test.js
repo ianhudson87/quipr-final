@@ -43,7 +43,7 @@ class LikeButton extends React.Component {
 
   joinGame= (e) =>{
     e.preventDefault();
-    JoinButtonClicked(this.state.joinUserName, this.state.joinGame);
+    JoinButtonClicked(this.state.joinUserName, this.state.joinGameName);
   }
 
   render() {

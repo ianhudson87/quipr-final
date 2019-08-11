@@ -55,6 +55,15 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	console.log('MongoDb connected')
 	
+	function shuffleArray(array) {
+		for (var i = array.length - 1; i > 0; i--) {
+			var j = Math.floor(Math.random() * (i + 1));
+			var temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
+		}
+	}
+	
 	// For scoreboard page
 	function showUserAndScoreWithDelay(iteration, user_name, game_name, score, isLastPlayer){
 		setTimeout(() => {
@@ -500,15 +509,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				})
 			})
 		})
-		
-		function shuffleArray(array) {
-			for (var i = array.length - 1; i > 0; i--) {
-				var j = Math.floor(Math.random() * (i + 1));
-				var temp = array[i];
-				array[i] = array[j];
-				array[j] = temp;
-			}
-		}
 		
 		function createArrayOf_n_UniqueRandomPositiveInts(n, max){
 			var array = new Array()

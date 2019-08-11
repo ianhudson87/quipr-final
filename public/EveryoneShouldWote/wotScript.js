@@ -43,20 +43,17 @@ if(socket !== undefined) {
     });
 
     function votedLeft() {
-        vote_p1_btn.addEventListener('click', () => {
-            socket.emit('vote', {
-                user_name: localStorage.user_name,
-                vote_num: 1
-            });
+        socket.emit('vote', {
+            user_name: localStorage.user_name,
+            vote_num: 1
         });
     }
     function votedRight(){
-        vote_p2_btn.addEventListener('click', () => {
-            socket.emit('vote', {
-                user_name: localStorage.user_name,
-                vote_num: 2
-            });
+        socket.emit('vote', {
+            user_name: localStorage.user_name,
+            vote_num: 2
         });
+        
     }
 
     //hides the two buttons...

@@ -58,11 +58,11 @@ class Lobii extends React.Component {
     SubmitScriptRun(this.state.Response);
     
   }
-  emptyResp() {
+  emptyResp(string) {
     console.log("here");
     this.setState({
-      Response:""
-    })
+      Response:string,
+    });
   }
 
   setResponse = (e) =>{

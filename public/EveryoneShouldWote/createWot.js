@@ -40,7 +40,7 @@ class Lobii extends React.Component {
     })
   }
   //sets question state to new question or current question.
-  setQuestion(Question){
+  setQuestions(Question){
     this.setState({
         Question:Question
     });

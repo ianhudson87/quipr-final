@@ -653,7 +653,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 		})
 		
-		// Handle prompt requestion
+		// Handle prompt request
 		socket.on('get_prompt', (data) => {
 			users = db.collection('users')
 			games = db.collection('games')

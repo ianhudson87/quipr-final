@@ -58,9 +58,9 @@ class Lobii extends React.Component {
     SubmitScriptRun(this.state.Response);
     
   }
-  emptyResp(string) {
+  emptyResp() {
     console.log("here");
-    document.getElementById("response_txt").innerHTML = "";
+    document.getElementById("#response_txt").value = "";
   }
 
   setResponse = (e) =>{
@@ -83,7 +83,7 @@ class Lobii extends React.Component {
                 c("hr", null),
                 c("p", {id: "prompt_display"}, this.state.Question),
                 c("br", null),
-                c("input", {id: "response_txt", type: "text", placeholder: "Response Goes Here.", onChange:this.setResponse}),
+                c("input", {id: "response_txt", type: "text", placeholder: "Response Goes Here.",value:this.state.Response, onChange:this.setResponse}),
                 c("hr", null),
                 c("div", {id: "button_Wrapper"},
                     c("button", {id: "submit_btn", onClick:this.submitAnswer}, "OOF!")

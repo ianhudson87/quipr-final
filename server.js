@@ -42,7 +42,7 @@ const voting_time_limit = 5
 
 const max_question_id = 144
 
-const time_between_showing_users_score = 1 // For scoreboard
+const time_between_showing_users_score = 0 // For scoreboard
 
 
 // Connect to mongo
@@ -66,6 +66,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			// Either clear the entire game or go onto the next stage
 			if(isLastPlayer){
+				client.in(game_name).emit('display_players')
 				games = db.collection('games')
 				setTimeout(() => {
 					games.find({'name': game_name}).toArray((err, res) => {

@@ -11,7 +11,7 @@ function reactDone(){
     
 }
 
-var socket = returnSocket(0)
+var socket = returnSocket()
 
 if(socket != undefined) {
 
@@ -36,9 +36,9 @@ if(socket != undefined) {
     // Handle array of players in game
     socket.on('reload_lobby', (data) => {
     
-        //var users = data.users_array
+        var users = data.users_array.map((user) => {return user.name})
         
-        var users = ["Huzaifa Khan", "Ian Hudson", "San Kwon", "Tong Zhao"];
+        //var users = ["Huzaifa Khan", "Ian Hudson", "San Kwon", "Tong Zhao"];
         //if you are looking for the 'thumbs-up' i moved it to the "preGame.js" file.
         //send string array to the 'createLobby' react component so it is saved in as a state 
         window.reactComponent.changeList(users);

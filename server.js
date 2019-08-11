@@ -36,13 +36,13 @@ const second_response_stage_num = 4
 const second_voting_stage_num = 5
 const second_scoreboard_stage_num = 6
 
-const time_between_voting_rounds = 7
+const time_between_voting_rounds = 13
 
 const voting_time_limit = 5
 
 const max_question_id = 144
 
-const time_between_showing_users_score = 1
+const time_between_showing_users_score = 1 // For scoreboard
 
 
 // Connect to mongo
@@ -55,6 +55,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	console.log('MongoDb connected')
 	
+	// For scoreboard page
 	function showUserAndScoreWithDelay(iteration, user_name, game_name, score, isLastPlayer){
 		setTimeout(() => {
 			console.log(iteration + 'it')
@@ -103,6 +104,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		}, 2000 + iteration * time_between_showing_users_score * 1000)
 	}
 	
+	// Initial function call for moving to scoreboard for a game
 	function moveToScoreboardAndLoop(game_name){
 		console.log('hi')
 		console.log(game_name)
@@ -126,6 +128,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 	}
 	
+	// For voting page
 	function showPromptAndAnswersWithDelay(iteration, round_num, game_name, players_array, isVotingFinished){
 		// going to show the question from players_array[iteration][q1_id]
 		
@@ -133,8 +136,9 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		//show prompt
 		setTimeout(() => {
-			// clear response text area and voting buttons
+			// clear response text area and hide who voted for whom
 			client.in(game_name).emit('clear_answer_txt')
+			client.in(game_name).emit('hide_users_votes')
 			
 			var attribute = 'r' + round_num + '_q1_id'
 			client.in(game_name).emit('show_prompt', {
@@ -150,7 +154,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 		}, 2500 + iteration * time_between_voting_rounds * 1000)
 		
-		// find player with the same response as their q2
+		// Find player with the same response as their q2
 		var x = 0
 		var search_attribute = 'r' + round_num + '_q2_id'
 		var question_id = players_array[iteration]['r' + round_num + '_q1_id']
@@ -167,36 +171,57 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			x++
 		}
 		
-		// show response2
+		// Show response2
 		setTimeout(() => {
 			client.in(game_name).emit('show_response2', {
 				response_txt: player2_response
 			})
 		}, 3000 + iteration * time_between_voting_rounds * 1000)
 		
-		// show buttons
+		// Show buttons
 		setTimeout(() => {
 			client.in(game_name).emit('show_voting_buttons')
 		}, 3000 + iteration * time_between_voting_rounds * 1000)
 		
-		// hide buttons, tally votes, reset voting in db. If voting is finished, redirect update game stage
+		// Hide buttons
 		setTimeout(() => {
-			// Hide buttons
 			client.in(game_name).emit('hide_voting_buttons')
+		}, 8000 + iteration * time_between_voting_rounds * 1000)
+		
+		
+		// Tally votes, show who voted for whom, reset voting in db.
+		setTimeout(() => {
 			
-			// Tally votes. Reload users array with updated votes
+			// Reload users array with updated votes
 			users = db.collection('users')
+			
+			// Show people's votes
+			users.find({'game_name': game_name, 'vote': 1}).toArray((err, res1) => {
+				// res1 = users in game who voted for player 1
+				users.find({'game_name': game_name, 'vote': 2}).toArray((err, res2) => {
+					// res2 = users in game who voted for player 2
+					client.in(game_name).emit('show_users_votes', {
+						votes_for_p1: res1,
+						votes_for_p2: res2
+					})
+				})
+			})
+			
+			// Tally votes. 
 			var p1_votes = 0
 			var p2_votes = 0
 			var p1_current_score
 			var p2_current_score
 			users.find({'name': player1_name}).toArray((err, res) => {
+				
 				p1_current_score = res[0].score
 				
 				users.find({'name': player2_name}).toArray((err, res) => {
 					p2_current_score = res[0].score
 					// Add up votes
 					users.find({'game_name': game_name}).toArray((err, res) => {
+						console.log('AAAAAAAAAAAAAAA')
+						console.log(res)
 						for(var x=0; x<res.length; x++){
 							if(res[x].vote == 1){
 								p1_votes++
@@ -212,30 +237,34 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						
 						// Reset votes
 						users.updateMany({'game_name': game_name},{$set: {vote: 0}})
-						
-						// If voting is finished, redirect. Update database with new stage
-						if(isVotingFinished){
-							games = db.collection('games')
-							games.find({'name': game_name}).toArray((err, res) => {
-								if(res[0].stage == first_voting_stage_num){
-									games.updateOne({'name': game_name}, {$set: {stage: first_scoreboard_stage_num}})
-									moveToScoreboardAndLoop(game_name)
-									console.log('scoreboard1')
-								}
-								else{
-									games.updateOne({'name': game_name}, {$set: {stage: second_scoreboard_stage_num}})
-									moveToScoreboardAndLoop(game_name)
-									console.log('scoreboard2')
-								}
-							})
-						}
 					})
 				})
 			})
 			
-		}, 6000 + iteration * time_between_voting_rounds * 1000)
+		}, 10000 + iteration * time_between_voting_rounds * 1000)
+		
+		// If voting is finished, redirect update game stage
+		setTimeout(() => {
+			// If voting is finished, redirect. Update database with new stage
+			if(isVotingFinished){
+				games = db.collection('games')
+				games.find({'name': game_name}).toArray((err, res) => {
+					if(res[0].stage == first_voting_stage_num){
+						games.updateOne({'name': game_name}, {$set: {stage: first_scoreboard_stage_num}})
+						moveToScoreboardAndLoop(game_name)
+						console.log('scoreboard1')
+					}
+					else{
+						games.updateOne({'name': game_name}, {$set: {stage: second_scoreboard_stage_num}})
+						moveToScoreboardAndLoop(game_name)
+						console.log('scoreboard2')
+					}
+				})
+			}
+		}, 15000 + iteration * time_between_voting_rounds * 1000)
 	}
 	
+	// Initial function call for moving to voting
 	function moveToVotingAndLoop(game_name){
 		games = db.collection('games')
 		users = db.collection('users')
@@ -274,7 +303,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		})
 	}
 	
-	
+	// Constantly running to decrement timer
 	function gameLoop() {
 		// update timers
 		games = db.collection('games')
@@ -599,7 +628,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					})
 					
 					
-					
 					/*
 					users.find({'game_name': data.game_name}).toArray((err, res) => {
 						var attribute = current_game_stage==first_response_stage_num ? 'r1_q2_response' : 'r2_q2_response'
@@ -629,14 +657,17 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 		})
 		
-		// Handle prompt requestion
+		// Handle prompt request
 		socket.on('get_prompt', (data) => {
 			users = db.collection('users')
 			games = db.collection('games')
 			games.find({'name': data.game_name}).toArray((err, res) => {
 				var current_game_stage = res[0].stage
 				var round = current_game_stage==first_response_stage_num ? 1 : 2
-					users.find({'name': data.user_name}).toArray((err, res) => {
+				
+				users.find({'name': data.user_name}).toArray((err, res) => {
+					console.log(data.user_name)
+					console.log(res)
 					var attribute_string = 'r' + round + '_' + 'q' + data.prompt_num + '_id'
 					var prompt_id = res[0][attribute_string]
 					socket.emit('display_prompt', {
@@ -644,6 +675,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						prompt_num:data.prompt_num
 					})
 				})
+				
 			})
 		})
 		

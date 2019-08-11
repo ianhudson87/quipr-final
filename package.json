@@ -1,22 +1,22 @@
 {
-  "name": "quipr-test1",
+  "name": "quipr-final",
   "version": "1.0.0",
   "description": "quipr first attempt",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
+    "dev": "nodemon server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ianhudson87/quipr-test1.git"
+    "url": "git+https://github.com/ianhudson87/quipr-final.git"
   },
   "author": "huz, ian",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ianhudson87/quipr-test1/issues"
+    "url": "https://github.com/ianhudson87/quipr-final/issues"
   },
-  "homepage": "https://github.com/ianhudson87/quipr-test1#readme",
+  "homepage": "https://github.com/ianhudson87/quipr-final#readme",
   "dependencies": {
     "express": "^4.17.1",
     "mongodb": "^3.3.0-beta2",

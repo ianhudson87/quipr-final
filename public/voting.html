@@ -1,0 +1,267 @@
+<html>
+<div>
+<table style="height: 87px; background-color: #666666; border-color: #000000; margin-left: auto; margin-right: auto;" border="7" width="500">
+<tbody>
+<tr>
+<td style="width: 636px; border-color: #000000;">
+<h1 style="text-align: center;"><span style="color: #800080;"><strong>ooof</strong></span></h1>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div></div>
+<div>
+<table style="background-color: #666666; border-color: #222222; width: 472px; margin-left: auto; margin-right: auto;" border="5"><caption>
+<h2>
+
+	<span id="game_name_display" style="color: #ff9900;">Room Name: </span>
+
+</h2>
+</caption>
+<tbody>
+<tr>
+<td style="width: 461px; text-align: center;">
+<table style="width: 100%; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr style="height: 52.8438px;">
+<td id="question" style="font-weight:bold; font-size: 120%; font-family:Impact; color: white; width: 486px; height: 75px; text-align: center;">
+
+	<span id="prompt_display"></span>
+
+</td>
+</tr>
+<tr style="height: 226px;">
+<td style="width: 486px; height: 226px;">
+<table style="width: 451px; height: 379px;" border="1">
+<tbody>
+<tr>
+<td style="width: 218px;">
+<table style="table-layout: fixed; width: 100%; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr style="text-align: center; height: 150px;">
+<td style="color:#00ff00; font-weight:bold;">
+<p><span id="user1"></span><br><span id="voters1"></span></p>
+
+	<span id="user1_display"></span>
+
+</td>
+</tr>
+<tr style="color:#ffffff; font-weight:bold; text-align: center; height: 200px;">
+<td style="vertical-align:top"><hr>
+<p id="answer1">
+
+	<span id="answer1_display"></span>
+	
+</p>
+</td>
+</tr>
+<tr style="text-align: center;">
+<td></td>
+</tr>
+<tr style="text-align: center;">
+<td></td>
+</tr>
+<tr style="height: 50px; text-align: center;">
+<td id="button1">
+
+	<span id="vote_p1_btn_area"></span>
+	<span id="voters_for_p1_area"></span>
+	
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td style="width: 217px;">
+<table style="table-layout: fixed; width: 100%; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr style="text-align: center; height: 150px;">
+<td style="font-weight:bold; color:#00ccff;">
+<p><span id="user2">
+
+	<span id="user2_display"></span>
+
+</span><br><span id="voters2"></span></p>
+</td>
+</tr>
+<tr style="color:#ffffff; font-weight:bold; text-align: center; height: 200px;">
+<td style="vertical-align:top"><hr>
+<p id="answer2">
+
+	<span id="answer2_display"></span>
+
+</p>
+</td>
+</tr>
+<tr style="text-align: center;">
+<td></td>
+</tr>
+<tr style="text-align: center;">
+<td></td>
+</tr>
+<tr style="height: 50px; text-align: center;">
+<td id="button2">
+
+	<span id="vote_p2_btn_area"></span>
+	<span id="voters_for_p2_area"></span>
+
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="width: 100%; border-color: #55aaff;" border="3">
+<tbody>
+<tr>
+<td id="timer" style="color:#ff0000; text-align: center; height:50px;"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="php">
+</div>
+<input type="button" value="udpate" onclick="updateScoringTimer()">
+</html>
+			<button id="testing">test</button>
+			
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+<script src="connectSocket.js"></script>
+
+<script src="loadPrompts.js"></script>
+
+<script>
+	(function(){
+	
+		//var socket_server_ip = ['http://192.168.1.88:4000', 'https://cb99026a.ngrok.io']
+	
+		var element = function(id){
+			return document.getElementById(id);
+		}
+		
+		var game_name_display = element('game_name_display');
+		var prompt_display = element('prompt_display')
+		var user1_display = element('user1_display')
+		var answer1_display = element('answer1_display')
+		var vote_p1_btn_area = element('vote_p1_btn_area')
+		var voters_for_p1_area = element('voters_for_p1_area')
+		var user2_display = element('user2_display')
+		var answer2_display = element('answer2_display')
+		var vote_p2_btn_area = element('vote_p2_btn_area')
+		var voters_for_p2_area = element('voters_for_p2_area')
+		
+		game_name_display.innerHTML = "Room: " + localStorage.game_name
+		
+		// Connect to socket.io
+		var socket = returnSocket()
+		
+		// Check for connection
+		if(socket !== undefined){
+		
+			console.log('Connected to socket...');
+			
+			// Connect to room
+			socket.on('connect', () => {
+				socket.emit('join_room', {
+					room_name: localStorage.game_name
+				})
+			})
+			
+			// Handle displaying prompt for voting
+			socket.on('show_prompt', (data) => {
+				getPromptFromIdAndDisplay(data.prompt_id, prompt_display)
+			})
+			
+			// Handle displaying response for voting
+			socket.on('show_response1', (data) => {
+				answer1_display.innerHTML = data.response_txt
+			})
+			
+			socket.on('show_response2', (data) => {
+				answer2_display.innerHTML = data.response_txt
+			})
+			
+			// Handle second voting iteration. Need to clear the answers from the first round
+			socket.on('clear_answer_txt', () => {
+				answer1_display.innerHTML = ''
+				answer2_display.innerHTML = ''
+			})
+			
+			// Handle showing voting buttons
+			socket.on('show_voting_buttons', () => {
+				vote_p1_btn_area.innerHTML = "<button id='vote_p1_btn'>Ooof!</button>"
+				vote_p2_btn_area.innerHTML = "<button id='vote_p2_btn'>Ooof!</button>"
+				var vote_p1_btn = element('vote_p1_btn')
+				var vote_p2_btn = element('vote_p2_btn')
+				vote_p1_btn.addEventListener('click', () => {
+					socket.emit('vote', {
+						user_name: localStorage.user_name,
+						vote_num: 1
+					})
+				})
+				vote_p2_btn.addEventListener('click', () => {
+					socket.emit('vote', {
+						user_name: localStorage.user_name,
+						vote_num: 2
+					})
+				})
+			})
+			
+			// Handle hiding buttons
+			socket.on('hide_voting_buttons', () => {
+				console.log('hide')
+				vote_p1_btn_area.innerHTML = ''
+				vote_p2_btn_area.innerHTML = ''
+			})
+			
+			// Handling moving to scoreboard
+			socket.on('move_to_scoreboard', () => {
+				console.log('hi2')
+				window.location.replace('scoreboard.html')
+			})
+			
+			// Handling showing who users voted for
+			socket.on('show_users_votes', (data) => {
+				var voters_names_for_p1 = data.votes_for_p1.map((user) => {
+					return user.name
+				})
+				var voters_names_for_p2 = data.votes_for_p2.map((user) => {
+					return user.name
+				})
+				for(var x=0; x<voters_names_for_p1.length; x++){
+					voters_for_p1_area.insertAdjacentHTML('afterbegin', voters_names_for_p1[x]);
+				}
+				for(var x=0; x<voters_names_for_p2.length; x++){
+					voters_for_p2_area.insertAdjacentHTML('afterbegin', voters_names_for_p2[x]);
+				}
+			})
+			
+			socket.on('hide_users_votes', () => {
+				voters_for_p1_area.innerHTML = ''
+				voters_for_p2_area.innerHTML = ''
+			})
+			
+		}
+		
+		//TESTING ONLY
+		var button = element('testing')
+		button.addEventListener('click', () => {
+			socket.emit('a', {
+				game_name: localStorage.game_name
+			})
+		})
+		
+	})();
+</script>

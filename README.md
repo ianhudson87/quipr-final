@@ -10,7 +10,7 @@ Heroku deployment instructions:
 	2. Add engine property for node in package.json
 	3. Go into project parent directory using command line
 	4. Create 'Procfile' with cmd commands
-	5. git rm add [git repo of the heroku app]
+	5. git rm add heroku [git repo of the heroku app]
 	6. git push heroku master
 	7. Or just go look at this link: https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment
 	
@@ -40,11 +40,8 @@ TODO:
 	Remove reponse from textbox when entered
 	
 	Ian:
-
-	When game is finished:
-		clear room
-		clear database
-		delete player
+	
+	After vote tally, use inc
 	
 	On disconnect:
 		remove from room

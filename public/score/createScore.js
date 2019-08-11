@@ -10,9 +10,7 @@ class Lobii extends React.Component {
     super(props);
     this.state = {
         gameName:"ph",
-        gold:"Bed",
-        silver:"Chair",
-        bronz:"Floor"
+        scoresList: [""]
     };
     window.reactComponent=this;
   }
@@ -20,6 +18,11 @@ class Lobii extends React.Component {
   setGameName(name){
     this.setState({
         gameName:name
+    })
+  }
+  printLosers(list){
+    this.setState({
+      scoresList:list
     })
   }
   setGold(name){
@@ -44,6 +47,13 @@ class Lobii extends React.Component {
 
   //renders to the "html" page to the web to your computer~...
   render() {
+
+    const noobList = this.state.scoresList.map(Noob => {
+      return(
+        c("p",{key:Noob},Noob)
+      );
+    });
+
     return(
       //c is React.createElement, btw. See line 2
         c("div", {id: "stage"}, 
@@ -54,14 +64,7 @@ class Lobii extends React.Component {
                 c("h2", {id: "pageTitle"}, "Scoreboard"),
                 c("hr", null),
                 c("h2", {id:"winner"},"Winner: \n"+ this.state.gold),
-                c("div",{className:"row"},
-                    c("div",{className:"column"},
-                        c("p",{id:"second_place"},"Second Place loser: \n"+this.state.silver)
-                    ),
-                    c("div",{className:"column"},
-                        c("p",{id:"answer2"},"fake gold:\n"+this.state.bronz)
-                    )
-                ),
+                c("div",{className:"row"}, noobList),
                 c("hr", null),
                 c("h2", null,"*clap,*clap,*clap! Applauses abound!")
             )

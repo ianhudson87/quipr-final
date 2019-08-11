@@ -22,22 +22,7 @@ class Lobii extends React.Component {
   }
   printLosers(list){
     this.setState({
-      scoresList:list
-    })
-  }
-  setGold(name){
-    this.setState({
-        gold:name
-    })
-  }
-  setSilver(name){
-    this.setState({
-        silver:name
-    })
-  }
-  setBronz(name){
-    this.setState({
-        bronz:name
+      scoresList: this.state.scoresList.push(list),
     })
   }
 

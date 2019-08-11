@@ -16,14 +16,9 @@ if(socket !== undefined) {
     })
 
     // Handle showing players
-    var listOPlayers = [];
     socket.on('show_player_score', (data) => {
         console.log('show player');
-        listOPlayers.push(data.user_name + ': ' + data.score);
-    })
-
-    socket.on('display_players', () => {
-        window.reactComponent.printLosers(listOPlayers);
+        window.reactComponent.printLosers(data.user_name + ': ' + data.score);
     })
 
     // Handle end of game

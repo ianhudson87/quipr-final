@@ -40,11 +40,8 @@ TODO:
 	Remove reponse from textbox when entered
 	
 	Ian:
-
-	When game is finished:
-		clear room
-		clear database
-		delete player
+	
+	After vote tally, use inc
 	
 	On disconnect:
 		remove from room

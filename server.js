@@ -198,7 +198,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			// Show people's votes
 			users.find({'game_name': game_name, 'vote': 1}).toArray((err, res1) => {
 				// res1 = users in game who voted for player 1
-				users.find({'game_name': game_name, 'vote': 1}).toArray((err, res2) => {
+				users.find({'game_name': game_name, 'vote': 2}).toArray((err, res2) => {
 					// res2 = users in game who voted for player 2
 					client.in(game_name).emit('show_users_votes', {
 						votes_for_p1: res1,

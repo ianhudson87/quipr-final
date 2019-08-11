@@ -189,7 +189,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		}, 8000 + iteration * time_between_voting_rounds * 1000)
 		
 		
-		// Tally votes, show who voted for whom, reset voting in db. If voting is finished, redirect update game stage
+		// Tally votes, show who voted for whom, reset voting in db.
 		setTimeout(() => {
 			
 			// Reload users array with updated votes
@@ -235,28 +235,31 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						
 						// Reset votes
 						users.updateMany({'game_name': game_name},{$set: {vote: 0}})
-						
-						// If voting is finished, redirect. Update database with new stage
-						if(isVotingFinished){
-							games = db.collection('games')
-							games.find({'name': game_name}).toArray((err, res) => {
-								if(res[0].stage == first_voting_stage_num){
-									games.updateOne({'name': game_name}, {$set: {stage: first_scoreboard_stage_num}})
-									moveToScoreboardAndLoop(game_name)
-									console.log('scoreboard1')
-								}
-								else{
-									games.updateOne({'name': game_name}, {$set: {stage: second_scoreboard_stage_num}})
-									moveToScoreboardAndLoop(game_name)
-									console.log('scoreboard2')
-								}
-							})
-						}
 					})
 				})
 			})
 			
 		}, 10000 + iteration * time_between_voting_rounds * 1000)
+		
+		// If voting is finished, redirect update game stage
+		setTimeout(() => {
+			// If voting is finished, redirect. Update database with new stage
+			if(isVotingFinished){
+				games = db.collection('games')
+				games.find({'name': game_name}).toArray((err, res) => {
+					if(res[0].stage == first_voting_stage_num){
+						games.updateOne({'name': game_name}, {$set: {stage: first_scoreboard_stage_num}})
+						moveToScoreboardAndLoop(game_name)
+						console.log('scoreboard1')
+					}
+					else{
+						games.updateOne({'name': game_name}, {$set: {stage: second_scoreboard_stage_num}})
+						moveToScoreboardAndLoop(game_name)
+						console.log('scoreboard2')
+					}
+				})
+			}
+		}, 15000 + iteration * time_between_voting_rounds * 1000)
 	}
 	
 	// Initial function call for moving to voting

@@ -19,7 +19,7 @@ if(socket !== undefined) {
     var listOPlayers = [];
     socket.on('show_player_score', (data) => {
         console.log('show player');
-        listOPlayers.push(data.user_name + ': ' + data.score + '<br />');
+        listOPlayers.push(data.user_name + ': ' + data.score);
     })
 
     socket.on('display_players', () => {
@@ -29,12 +29,12 @@ if(socket !== undefined) {
     // Handle end of game
     socket.on('finish_game', () => {
         localStorage.clear()
-        window.location.replace('index.html')
+        window.location.replace('../index.html')
     })
     
     // Handle moving to next round of responses
     socket.on('move_to_reponses', () => {
-        window.location.replace('/game/game.html')
+        window.location.replace('../game/game.html')
     })
     
     // Handle request to remove user from current room

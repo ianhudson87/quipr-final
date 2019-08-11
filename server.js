@@ -220,6 +220,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					p2_current_score = res[0].score
 					// Add up votes
 					users.find({'game_name': game_name}).toArray((err, res) => {
+						console.log('AAAAAAAAAAAAAAA')
+						console.log(res)
 						for(var x=0; x<res.length; x++){
 							if(res[x].vote == 1){
 								p1_votes++

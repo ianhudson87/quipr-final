@@ -6,7 +6,7 @@ function reactDone() {
 }
 
 // Connect to socket.io
-var socket = returnSocket(0);
+var socket = returnSocket();
 
 // Check for connection
 if(socket !== undefined) {

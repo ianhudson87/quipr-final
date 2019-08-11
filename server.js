@@ -285,9 +285,11 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				
 				// get all users in the same game
 				users.find({'game_name': game_name}).toArray((err, res) => {
-					
-					console.log(res)
 					// res = array of all players in the same game
+					
+					// shuffle res
+					shuffleArray(res)
+					
 					// for each user in the game, get their first prompt and display it
 					for(var x=0; x<res.length; x++){
 						// Make function call for each round. Set appropriate delay in the function

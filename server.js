@@ -659,13 +659,17 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			games.find({'name': data.game_name}).toArray((err, res) => {
 				var current_game_stage = res[0].stage
 				var round = current_game_stage==first_response_stage_num ? 1 : 2
-					users.find({'name': data.user_name}).toArray((err, res) => {
+				
+				users.find({'name': data.user_name}).toArray((err, res) => {
+					console.log(data.user_name)
+					console.log(res)
 					var attribute_string = 'r' + round + '_' + 'q' + data.prompt_num + '_id'
 					var prompt_id = res[0][attribute_string]
 					socket.emit('display_prompt', {
 						prompt_id: prompt_id
 					})
 				})
+				
 			})
 		})
 		

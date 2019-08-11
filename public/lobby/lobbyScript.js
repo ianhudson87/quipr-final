@@ -1,3 +1,5 @@
+var gamePath = '../game/gameLook.html'
+
 
 //any part that needs to reference the DOM must go in this function below or a Socket "ON" functions.
 function reactDone(){
@@ -60,6 +62,6 @@ if(socket != undefined) {
 
     // Handle start of game
     socket.on('game_has_started', () => {
-        window.location.replace('../game/game.html')
+        window.location.replace(gamePath)
     })
 }

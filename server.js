@@ -28,7 +28,7 @@ console.log(port)
 // Setting up constants
 
 const response_time_limit = 10
-const tickRate = 1
+const tickRate = 0.5
 const first_response_stage_num = 1
 const first_voting_stage_num = 2
 const first_scoreboard_stage_num = 3

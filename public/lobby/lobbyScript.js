@@ -65,7 +65,16 @@ if(socket != undefined) {
 
     // Handle start of game
     socket.on('game_has_started', () => {
-		console.log('here')
-        window.location.replace(gamePath)
+        console.log('here')
+        movingOn = 1;
+        window.location.replace(gamePath);
+        //I think that the 'disconnect' fires right after the line above...
     })
+    var movingOn = 0;// if zero, button isn't pressed. If 1, button has been pressed....
+    socket.on('disconnect', () => {
+        console.log("The boss has left...");
+        if(movingOn == 0 && localStorage.is_owner == 'true'){
+            socket.emit("boss_is_dead", {})
+        }
+    });
 }

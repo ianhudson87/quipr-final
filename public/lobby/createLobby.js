@@ -33,7 +33,12 @@ class Lobii extends React.Component {
 
   startBotton = (e) => {
     e.preventDefault();
-    startGame();// function from lobbyScript.js
+    if(this.state.playerList.length < 2) {
+      alert("you can't play a game of Quipl-... QuipR with less than 2 players!")
+    }
+    else {
+      startGame();// function from lobbyScript.js
+    }
   }
 
   render() {

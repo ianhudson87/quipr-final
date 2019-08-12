@@ -23,9 +23,10 @@ class Lobii extends React.Component {
     reactDone();//announces to the socket script that React is done mounting (god knows what tho...)
   }
   //sets the gameName state after recieving from the server and socket.
-  setGameName (gameName) {
+  setGameName (gameName, round) {
     this.setState({
-      gameName:gameName
+      gameName:gameName,
+      roundNumber: round
     });
   }
   //sets the time to max time. Then will count down to cero? yeah.

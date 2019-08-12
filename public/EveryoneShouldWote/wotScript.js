@@ -1,7 +1,7 @@
 
 function reactDone(){
     console.log("react is done loading");
-    window.reactComponent.setGameName(localStorage.game_name);
+    window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
 
 
 }

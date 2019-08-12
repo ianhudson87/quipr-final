@@ -22,10 +22,10 @@ class Lobii extends React.Component {
   }
 
   //sets the gameName state after recieving from the server and socket.
-  setGameName (gameName) {
+  setGameName (gameName, round) {
     this.setState({
       gameName:gameName,
-      //roundNumber:roundNumber,
+      roundNumber:round,
     });
   }
   //sets the time to max time. Then will count down to cero? yeah.

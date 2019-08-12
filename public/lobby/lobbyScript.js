@@ -67,6 +67,7 @@ if(socket != undefined) {
     socket.on('game_has_started', () => {
         console.log('here')
         localStorage.movingOn = 1;
+        localStorage.Round = 1;
         window.location.replace(gamePath);
         //I think that the 'disconnect' fires right after the line above...
     })

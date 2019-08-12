@@ -10,14 +10,16 @@ class Lobii extends React.Component {
     super(props);
     this.state = {
         gameName:"ph",
-        scoresList: [""]
+        scoresList: [""],
+        roundNumber:0
     };
     window.reactComponent=this;
   }
 
-  setGameName(name){
+  setGameName(name, round){
     this.setState({
-        gameName:name
+        gameName:name,
+        roundNumber:round
     })
   }
   printLosers(list){
@@ -48,7 +50,7 @@ class Lobii extends React.Component {
                 c("hr", null),
                 c("h2", {id: "pageTitle"}, "Scoreboard"),
                 c("hr", null),
-                c("h2", {id:"winner"},"Winner: \n"+ this.state.gold),
+                c("h2", {id:"winner"},"Round: \n"+ this.state.gold),
                 c("div",{className:"row"}, noobList),
                 c("hr", null),
                 c("h2", null,"*clap,*clap,*clap! Applauses abound!")

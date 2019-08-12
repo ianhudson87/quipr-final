@@ -1,7 +1,7 @@
 function reactDone(){
     console.log("react is done loading");
 
-    window.reactComponent.setGameName(localStorage.game_name);
+    window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
 }
 
 var socket = returnSocket()
@@ -29,6 +29,7 @@ if(socket !== undefined) {
     
     // Handle moving to next round of responses
     socket.on('move_to_reponses', () => {
+        localStorage.Round++;
         window.location.replace('../game/game.html')
     })
     

@@ -45,6 +45,7 @@ p{
     border-style:dashed;
     border-width: 6px;
     border-radius: 15px;
+    word-wrap: break-word;
 }
 #users_txt{
     height: 350px;

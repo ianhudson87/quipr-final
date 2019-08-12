@@ -46,6 +46,6 @@ For source code reference:
 - [ ] Redirect users to correct game page if they load an incorrect page
 	Same things as join_room. on('connect') send request to get the game stage. Redirect based on the value
 	
-- [ ] Make sure users can't start game with only one player in lobby
+- [x] Make sure users can't start game with only one player in lobby.(Untested)
 	
 	

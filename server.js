@@ -67,7 +67,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	// For scoreboard page
 	function showUserAndScoreWithDelay(iteration, user_name, game_name, score, isLastPlayer){
 		setTimeout(() => {
-			console.log(iteration + 'it')
 			client.in(game_name).emit('show_player_score', {
 				user_name: user_name,
 				score: score
@@ -101,7 +100,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 							
 							// Tell users to clear localStorage vars and redirect
 							client.in(game_name).emit('finish_game')
-							console.log('finish game')
 						}
 						else{
 							// change game stage, redirect
@@ -116,8 +114,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	// Initial function call for moving to scoreboard for a game
 	function moveToScoreboardAndLoop(game_name){
-		console.log('hi')
-		console.log(game_name)
 		client.in(game_name).emit('move_to_scoreboard')
 		users = db.collection('users')
 		
@@ -168,14 +164,12 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		var x = 0
 		var search_attribute = 'r' + round_num + '_q2_id'
 		var question_id = players_array[iteration]['r' + round_num + '_q1_id']
-		console.log(question_id)
 		var player2_response
 		var player2_name
 		while(true){
 			if(players_array[x][search_attribute] == question_id){
 				player2_response = players_array[x]['r' + round_num + '_q2_response']
 				player2_name = players_array[x].name
-				console.log(players_array[x]['r' + round_num + '_q2_response'])
 				break
 			}
 			x++
@@ -230,8 +224,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					p2_current_score = res[0].score
 					// Add up votes
 					users.find({'game_name': game_name}).toArray((err, res) => {
-						console.log('AAAAAAAAAAAAAAA')
-						console.log(res)
 						for(var x=0; x<res.length; x++){
 							if(res[x].vote == 1){
 								p1_votes++
@@ -258,18 +250,23 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			// If voting is finished, redirect. Update database with new stage
 			if(isVotingFinished){
 				games = db.collection('games')
+				
+				// Increment game stage by 1, reset timer
+				games.updateOne({'name': game_name}, {$inc: {stage: 1}})
+				games.updateOne({'name': game_name}, {$set: {timer: response_time_limit}})
+				moveToScoreboardAndLoop(game_name)
+				
+				/*
 				games.find({'name': game_name}).toArray((err, res) => {
 					if(res[0].stage == first_voting_stage_num){
 						games.updateOne({'name': game_name}, {$set: {stage: first_scoreboard_stage_num}})
 						moveToScoreboardAndLoop(game_name)
-						console.log('scoreboard1')
 					}
 					else{
 						games.updateOne({'name': game_name}, {$set: {stage: second_scoreboard_stage_num}})
 						moveToScoreboardAndLoop(game_name)
-						console.log('scoreboard2')
 					}
-				})
+				*/
 			}
 		}, 15000 + iteration * time_between_voting_rounds * 1000)
 	}
@@ -286,10 +283,9 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			games.updateOne({'name': game_name}, {$set: {'stage': nextGameStage}})
 			client.in(game_name).emit('move_to_voting')
+			console.log('move to voting')
 			
 			games.find({'name': game_name}).toArray((err, res) => {
-				console.log(res)
-				console.log(res[0].stage + '--stage')
 				var round_num = res[0].stage <= first_voting_stage_num ? 1 : 2 // TODO: sometimes updateOne (6 lines above) doesn't work in time for this line. Hot fix is to use <=
 				
 				// get all users in the same game
@@ -319,14 +315,14 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	function gameLoop() {
 		// update timers
 		games = db.collection('games')
-		games.find({'stage': 1}).toArray((err, res) => {
+		games.find({'stage': first_response_stage_num, 'stage': second_response_stage_num}).toArray((err, res) => {
 			// res = all games that are on stage 1 (responding to prompts)
 			if(res != null){
 				for(var x=0; x<res.length; x++){
 					res[x].timer = res[x].timer - 1/tickRate // decrement all the times
 					
 					// if time has run out, emit to change page to people in the room
-					if(res[x].timer < 0){
+					if(res[x].timer <= 0){
 						moveToVotingAndLoop(res[x].name)
 					}
 					else{
@@ -347,7 +343,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	//Connect to socket
 	client.on('connect', function(socket){
-		console.log("user connected")
 			
 		// TESTING ONLY
 		socket.on('a', (data) => {
@@ -361,7 +356,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// handle client wanting to join room whenever page refreshes
 		socket.on('join_room', (data) => {
-			console.log("room joined" + data.room_name)
 			socket.join(data.room_name)
 		})
 		
@@ -503,7 +497,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			// find all users with same game_name
 			users.find({'game_name': data.game_name}).toArray(function(err, res){
-				console.log(res)
 				client.emit('reload_lobby',{
 					users_array: res
 				})
@@ -523,6 +516,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// handle start game button click
 		socket.on('start_game', (data) => {
+			console.log('start_game1')
 			games = db.collection('games')
 			users = db.collection('users')
 			games.updateOne({'name': data.starting_game_name}, {$set: {'stage': 1, 'timer': response_time_limit}})
@@ -561,6 +555,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 			
 			//tell users in same room to check their game for start
+			console.log('start_game2')
+			console.log('room_name' + data.room_name)
 			client.in(data.room_name).emit('game_has_started')
 		})
 		
@@ -669,8 +665,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				var round = current_game_stage==first_response_stage_num ? 1 : 2
 				
 				users.find({'name': data.user_name}).toArray((err, res) => {
-					console.log(data.user_name)
-					console.log(res)
 					var attribute_string = 'r' + round + '_' + 'q' + data.prompt_num + '_id'
 					var prompt_id = res[0][attribute_string]
 					socket.emit('display_prompt', {

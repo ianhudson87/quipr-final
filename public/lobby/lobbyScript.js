@@ -65,6 +65,7 @@ if(socket != undefined) {
 
     // Handle start of game
     socket.on('game_has_started', () => {
+		console.log('here')
         window.location.replace(gamePath)
     })
 }

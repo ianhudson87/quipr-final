@@ -18,6 +18,7 @@ if(socket !== undefined) {
     
     // Connect to room  
     socket.on('connect', () => {
+		console.log('join_room')
         socket.emit('join_room', {
             room_name: localStorage.game_name
         })

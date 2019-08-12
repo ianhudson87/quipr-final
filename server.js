@@ -28,7 +28,7 @@ console.log(port)
 // Setting up constants
 
 const response_time_limit = 10
-const tickRate = 0.5
+const tickRate = 1
 const first_response_stage_num = 1
 const first_voting_stage_num = 2
 const first_scoreboard_stage_num = 3
@@ -252,6 +252,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				games = db.collection('games')
 				
 				// Increment game stage by 1, reset timer
+				console.log('inc')
 				games.updateOne({'name': game_name}, {$inc: {stage: 1}})
 				games.updateOne({'name': game_name}, {$set: {timer: response_time_limit}})
 				moveToScoreboardAndLoop(game_name)
@@ -273,6 +274,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	// Initial function call for moving to voting
 	function moveToVotingAndLoop(game_name){
+		console.log('movetovoting' + game_name)
 		games = db.collection('games')
 		users = db.collection('users')
 		
@@ -280,10 +282,10 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			// res = games with same game_name
 			// stage originally on responses, need to change to voting
 			var nextGameStage = res[0].stage == first_response_stage_num ? first_voting_stage_num : second_voting_stage_num
-			
 			games.updateOne({'name': game_name}, {$set: {'stage': nextGameStage}})
+			
+			// tell users to move to voting
 			client.in(game_name).emit('move_to_voting')
-			console.log('move to voting')
 			
 			games.find({'name': game_name}).toArray((err, res) => {
 				var round_num = res[0].stage <= first_voting_stage_num ? 1 : 2 // TODO: sometimes updateOne (6 lines above) doesn't work in time for this line. Hot fix is to use <=
@@ -315,14 +317,14 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	function gameLoop() {
 		// update timers
 		games = db.collection('games')
-		games.find({'stage': first_response_stage_num, 'stage': second_response_stage_num}).toArray((err, res) => {
+		games.find({$or: [{'stage': first_response_stage_num}, {'stage': second_response_stage_num}]}).toArray((err, res) => {
 			// res = all games that are on stage 1 (responding to prompts)
 			if(res != null){
 				for(var x=0; x<res.length; x++){
 					res[x].timer = res[x].timer - 1/tickRate // decrement all the times
 					
 					// if time has run out, emit to change page to people in the room
-					if(res[x].timer <= 0){
+					if(res[x].timer < 0){
 						moveToVotingAndLoop(res[x].name)
 					}
 					else{
@@ -356,6 +358,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// handle client wanting to join room whenever page refreshes
 		socket.on('join_room', (data) => {
+			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
 		})
 		

@@ -6,7 +6,30 @@ function reactDone() {
     socket.emit('get_timer', {
         game_name: localStorage.game_name
     })
-    sendPromptRequest(1);
+    //sendPromptRequest(1);
+	
+	// Get the number of responses completed by user upon reload. Then display the correct prompt stuff based on it.
+	// Prevents users from getting incorrect prompt if they reload
+	socket.emit('get_num_reponses_completed', {
+		user_name: localStorage.user_name,
+		game_name: localStorage.game_name
+	})
+	
+	socket.on('get_num_reponses_completed', (data) => {
+		console.log(data.num_completed)
+		if(data.num_completed == 0){
+			sendPromptRequest(1);
+		}
+		else if(data.num_completed == 1){
+			sendPromptRequest(2);
+		}
+		else{
+			document.getElementById('prompt_display').innerHTML = "Please wait for the Round to End.";
+			document.getElementById('response_txt').style.visibility='hidden';
+			document.getElementById('submit_btn').style.visibility = 'hidden';
+		}
+	})
+
 }
 
 // Connect to socket.io
@@ -18,11 +41,11 @@ if(socket !== undefined) {
     
     // Connect to room  
     socket.on('connect', () => {
+		console.log('join_room')
         socket.emit('join_room', {
             room_name: localStorage.game_name
         })
     })
-
     
     // set timer to initial count
     socket.on('update_timer_display', (data) => {

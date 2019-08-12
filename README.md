@@ -30,10 +30,8 @@ For source code reference:
 		
 ## TODO
 	
-Huz:
-Printin' names all day long takes all day. Print them one by one. ScoreScript stuff.
+- [ ] Printin' names all day long takes all day. Print them one by one. ScoreScript stuff.
 
-Ian:
 - [ ] After vote tally, use inc
 
 - [x] On response page:

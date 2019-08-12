@@ -1,6 +1,6 @@
 # Quipr
 
-Deployed site: http://quipr-html.herokuapp.com
+Deployed site: http://quipr-final.herokuapp.com
 
 Created with Node.js, MongoDB, Socket.io, and other unimportant stuff
 	

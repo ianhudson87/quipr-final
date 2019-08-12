@@ -27,7 +27,7 @@ console.log(port)
 
 // Setting up constants
 
-const response_time_limit = 60
+const response_time_limit = 1000
 const tickRate = 0.5
 const first_response_stage_num = 1
 const first_voting_stage_num = 2
@@ -575,6 +575,44 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					time: res[0].timer
 				})
 			
+			})
+		})
+		
+		// Handle user requesting to get number of responses they have completed
+		socket.on('get_num_reponses_completed', (data) => {
+			users = db.collection('users')
+			games = db.collection('games')
+			
+			// get current stage to determine which field to update (which round)
+			games.find({'name': data.game_name}).toArray((err, res) => {
+				var current_game_stage = res[0].stage
+				
+				// get first reponse and see if is blank to determine which field to update (which prompt/question)
+				users.find({'name': data.user_name}).toArray((err, res) => {
+					// get first and second responses based on current stage
+					var response_one = current_game_stage==first_response_stage_num ? res[0].r1_q1_response : res[0].r2_q1_response
+					var response_two = current_game_stage==first_response_stage_num ? res[0].r1_q2_response : res[0].r2_q2_response
+					
+					var responses_completed
+					if(response_two != ''){
+						socket.emit('get_num_reponses_completed', {
+							num_completed: 2
+						})
+					}
+					else if(response_one != ''){
+						socket.emit('get_num_reponses_completed', {
+							num_completed: 1
+						})
+					}
+					else{
+						socket.emit('get_num_reponses_completed', {
+							num_completed: 0
+						})
+					}
+					
+				})
+				
+				
 			})
 		})
 		

@@ -27,7 +27,7 @@ console.log(port)
 
 // Setting up constants
 
-const response_time_limit = 10
+const response_time_limit = 60
 const tickRate = 0.5
 const first_response_stage_num = 1
 const first_voting_stage_num = 2
@@ -269,7 +269,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					}
 				*/
 			}
-		}, 15000 + iteration * time_between_voting_rounds * 1000)
+		}, 12000 + iteration * time_between_voting_rounds * 1000)
 	}
 	
 	// Initial function call for moving to voting

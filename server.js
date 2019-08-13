@@ -366,7 +366,11 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			socket.on('disconnect', () => {
 				console.log('disconnecting')
 				console.log(disconnect_key)
-				client.emit(disconnect_key)
+				setTimeout(() => {
+					client.emit(disconnect_key)
+					console.log('delay')
+				}, 2000)
+				
 			})
 		})
 		

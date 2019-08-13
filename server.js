@@ -365,7 +365,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		// Handle player disconnecting
 		socket.on('disconnect', () => {
 			console.log('disconnected')
-			socket.emit('disconnect')
+			socket.emit('die')
 		})
 		
 		// HANDLE CREATE

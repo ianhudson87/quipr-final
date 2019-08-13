@@ -78,6 +78,12 @@ if(socket != undefined) {
             socket.emit("boss_is_dead", {
                 game_name:localStorage.game_name
             })
+            //calls a mass deleter. Deletes everything...
+            socket.emit('remove_user_from_room', {
+                room_name: localStorage.game_name
+            })
+            localStorage.clear();
+            window.location.replace('../index.html');
         }
     });
 }

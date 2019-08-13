@@ -75,7 +75,9 @@ if(socket != undefined) {
     socket.on('disconnect', () => {
         console.log("The boss has left...");
         if(localStorage.movingOn == 0 && localStorage.is_owner == 'true') {
-            socket.emit("boss_is_dead", {})
+            socket.emit("boss_is_dead", {
+                game_name:localStorage.game_name
+            })
         }
     });
 }

@@ -39,7 +39,7 @@ if(socket != undefined) {
     socket.on('reload_lobby', (data) => {
         var users = data.users_array.map((user) => {
                 if(user.is_owner == 1){
-                    return user.name + "👍🏾";
+                    return user.name + " 👍🏾";
                 }
                 else return user.name;
         }) 

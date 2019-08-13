@@ -72,7 +72,7 @@ if(socket != undefined) {
         //I think that the 'disconnect' fires right after the line above...
     })
     localStorage.movingOn = 0;// if zero, button isn't pressed. If 1, button has been pressed....
-    socket.on('disconnect', () => {
+    socket.on('die', () => {
         console.log("The boss has left...");
         if(localStorage.movingOn == 0 && localStorage.is_owner == 'true') {
             socket.emit("boss_is_dead", {

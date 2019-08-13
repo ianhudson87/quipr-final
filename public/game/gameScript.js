@@ -19,10 +19,14 @@ function reactDone() {
 	socket.on('get_num_reponses_completed', (data) => {
 		console.log(data.num_completed)
 		if(data.num_completed == 0){
-			sendPromptRequest(1);
+            sendPromptRequest(1);
+            document.getElementById('response_txt').style.visibility= 'visible';
+            document.getElementById('submit_btn').style.visibility = 'visible';
 		}
 		else if(data.num_completed == 1){
-			sendPromptRequest(2);
+            sendPromptRequest(2);
+            document.getElementById('response_txt').style.visibility= 'visible';
+            document.getElementById('submit_btn').style.visibility = 'visible';
 		}
 		else{
 			document.getElementById('prompt_display').innerHTML = "Please wait for the Round to End.";
@@ -33,9 +37,6 @@ function reactDone() {
     
     //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
     setInterval(() => {decTimeAndDisplay()}, 1000);
-
-    document.getElementById('response_txt').style.visibility= 'visible';
-    document.getElementById('submit_btn').style.visibility = 'visible';
 
 }
 

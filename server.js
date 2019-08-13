@@ -364,6 +364,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			var disconnect_key = 'disconnect_key' + data.user_name
 			// Handle player disconnecting
 			socket.on('disconnect', () => {
+				console.log('disconnecting')
+				console.log(disconnect_key)
 				client.emit(disconnect_key)
 			})
 		})

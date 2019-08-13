@@ -34,6 +34,9 @@ function reactDone() {
     //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
     setInterval(() => {decTimeAndDisplay()}, 1000);
 
+    document.getElementById('response_txt').style.visibility= 'visible';
+    document.getElementById('submit_btn').style.visibility = 'visible';
+
 }
 
 // Connect to socket.io

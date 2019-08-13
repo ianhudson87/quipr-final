@@ -3,7 +3,12 @@ function reactDone(){
     console.log("react is done loading");
     window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
 
+    socket.emit("vote_timer", {
+        game_name:localStorage.game_name
+    })
 
+    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
+    setInterval(() => {decTimeAndDisplay()}, 1000);
 }
 
 var socket = returnSocket(0)
@@ -17,6 +22,18 @@ if(socket !== undefined) {
             room_name: localStorage.game_name
         })
     })
+
+    // set timer to initial count
+    socket.on("vote_timer", (data) => {
+        window.reactComponent.setTime(data.timer);
+    })
+    
+    //decrement time by uno;
+    function decTimeAndDisplay(){
+        window.reactComponent.decTime();
+    }
+
+
     // Handle displaying prompt for voting
     socket.on('show_prompt', (data) => {
         window.reactComponent.setQuestions(getPromptFromIdAndDisplay(data.prompt_id))

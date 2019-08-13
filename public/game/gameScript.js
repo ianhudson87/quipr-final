@@ -7,6 +7,7 @@ function reactDone() {
         game_name: localStorage.game_name
     })
     //sendPromptRequest(1);
+    
 	
 	// Get the number of responses completed by user upon reload. Then display the correct prompt stuff based on it.
 	// Prevents users from getting incorrect prompt if they reload
@@ -28,7 +29,10 @@ function reactDone() {
 			document.getElementById('response_txt').style.visibility='hidden';
 			document.getElementById('submit_btn').style.visibility = 'hidden';
 		}
-	})
+    })
+    
+    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
+    setInterval(() => {decTimeAndDisplay()}, 1000);
 
 }
 
@@ -56,8 +60,6 @@ if(socket !== undefined) {
     function decTimeAndDisplay(){
         window.reactComponent.decTime();
     }
-    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
-    setInterval(() => {decTimeAndDisplay()}, 1000);
 
     /* If serverside timer update is wanted: delete sockets from above and uncomment this
     socket.on('update_timer', () => {

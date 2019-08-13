@@ -22,6 +22,7 @@ class Lobii extends React.Component {
         roundNumber:round
     })
   }
+
   printLosers(list){
     this.setState({
       scoresList: this.state.scoresList.concat(list)
@@ -50,7 +51,7 @@ class Lobii extends React.Component {
                 c("hr", null),
                 c("h2", {id: "pageTitle"}, "Scoreboard"),
                 c("hr", null),
-                c("h2", {id:"winner"},"Round: \n"+ this.state.gold),
+                c("h2", {id:"winner"},"Round: \n"+ this.state.roundNumber),
                 c("div",{className:"row"}, noobList),
                 c("hr", null),
                 c("h2", null,"*clap,*clap,*clap! Applauses abound!")

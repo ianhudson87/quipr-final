@@ -374,7 +374,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 		})
 		
-		
 		// HANDLE CREATE
 		// Handle create game button click
 		socket.on('create_game', function(data){
@@ -507,6 +506,12 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		/////////////////////////// LOBBY PAGE
 		
+		// Handle removing users from room when owner disconnects
+		socket.on('remove_room', (data) => {
+			client.in(data.game_name).emit('leave_room')
+		})
+		
+		// Deleting database when owner disconnects
 		socket.on('boss_is_dead', (data) => {
 			games = db.collection('games')
 			users = db.collection('users')

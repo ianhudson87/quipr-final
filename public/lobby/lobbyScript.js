@@ -38,12 +38,15 @@ if(socket != undefined) {
                 game_name:localStorage.game_name
             })
             //calls a mass deleter. Deletes everything...
-            socket.emit('remove_user_from_room', {
+            socket.emit('remove_room', {
                 room_name: localStorage.game_name
             })
-            localStorage.clear();
-            window.location.replace('../index.html');
         }
+	})
+	
+	socket.on('leave_room', () => {
+		localStorage.clear();
+		window.location.replace('../index.html');
 	})
 
     // function that emits socket to update player list

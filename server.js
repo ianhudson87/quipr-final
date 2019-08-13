@@ -725,6 +725,15 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 		})
 		
+		//////////////////////// VOTING STUFF
+		
+		// Handle request for vote_timer
+		socket.on('vote_timer', () => {
+			client.emit('vote_timer', {
+				timer: time_between_voting_rounds
+			})
+		})
+		
 		// Handle vote for players
 		socket.on('vote', (data) => {
 			users = db.collection('users')

@@ -19,6 +19,7 @@ button{
     height: 20px;
     border-radius:3px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    visibility:hidden
 }
 #button_Wrapper{
     text-align: center;
@@ -63,6 +64,7 @@ input{
     border-radius: 4px;
     margin:10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    visibility: hidden
 }
 #prompt_display{
     min-height: 150px;

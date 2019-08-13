@@ -361,16 +361,19 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
 			
-			var disconnect_key = 'disconnect_key' + data.user_name
-			// Handle player disconnecting
+			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
-				console.log('disconnecting')
-				console.log(disconnect_key)
-				setTimeout(() => {
-					client.emit(disconnect_key)
-					console.log('delay')
-				}, 2000)
+				if(data.is_owner){
+				// Telling users to delete local storage and redirect
+				client.in(data.room_name).emit('leave_room')
 				
+				// deleting database
+				games = db.collection('games')
+				users = db.collection('users')
+				
+				games.deleteOne({'name': data.room_name})
+				users.deleteOne({'game_name': data.room_name})
+			}
 			})
 		})
 		
@@ -505,20 +508,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		})
 		
 		/////////////////////////// LOBBY PAGE
-		
-		// Handle removing users from room when owner disconnects
-		socket.on('remove_room', (data) => {
-			client.in(data.room_name).emit('leave_room')
-		})
-		
-		// Deleting database when owner disconnects
-		socket.on('boss_is_dead', (data) => {
-			games = db.collection('games')
-			users = db.collection('users')
-			
-			games.deleteOne({'name': data.game_name})
-			users.deleteOne({'game_name': data.game_name})
-		})
 		
 		// reload the users list
 		socket.on('reload_lobby', (data) => {

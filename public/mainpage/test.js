@@ -64,9 +64,8 @@ class LikeButton extends React.Component {
   render() {
     return React.createElement("div", null, React.createElement("h1", {
       id: "GameTitle"
-    }, "QuipR"), React.createElement("form", {
+    }, "QuipR"), React.createElement("div", {
       id: "gameSetup",
-	  onSubmit:"return false"
     }, React.createElement("h1", {
       id: "creGame"
     }, "Create a Game!"), React.createElement("hr", null), React.createElement("input", {

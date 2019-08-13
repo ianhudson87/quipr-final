@@ -494,6 +494,14 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		/////////////////////////// LOBBY PAGE
 		
+		socket.on('boss_is_dead', (data) => {
+			games = db.collection('games')
+			users = db.collection('users')
+			
+			games.deleteOne({'name': data.game_name})
+			users.deleteOne({'game_name': data.game_name})
+		})
+		
 		// reload the users list
 		socket.on('reload_lobby', (data) => {
 			users = db.collection('users')

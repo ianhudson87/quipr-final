@@ -508,7 +508,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// Handle removing users from room when owner disconnects
 		socket.on('remove_room', (data) => {
-			client.in(data.game_name).emit('leave_room')
+			client.in(data.room_name).emit('leave_room')
 		})
 		
 		// Deleting database when owner disconnects

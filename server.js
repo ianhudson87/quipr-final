@@ -344,7 +344,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	
 	//Connect to socket
-	client.on('connect', function(socket){
+	client.on('connect', function(socket){ 
 			
 		// TESTING ONLY
 		socket.on('a', (data) => {
@@ -360,13 +360,14 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		socket.on('join_room', (data) => {
 			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
+			
+			var disconnect_key = 'disconnect_key' + data.user_name
+			// Handle player disconnecting
+			socket.on('disconnect', () => {
+				client.emit(disconnect_key)
+			})
 		})
 		
-		// Handle player disconnecting
-		socket.on('disconnect', () => {
-			console.log('disconnected')
-			socket.emit('die')
-		})
 		
 		// HANDLE CREATE
 		// Handle create game button click

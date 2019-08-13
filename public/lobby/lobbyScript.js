@@ -24,8 +24,27 @@ if(socket != undefined) {
         console.log('connect')
         socket.emit('join_room', {
             room_name: localStorage.game_name
+			user_name: localStorage.user_name
         })
     })
+	
+	localStorage.movingOn = 0;// if zero, button isn't pressed. If 1, button has been pressed....
+	
+	// Handle disconnecting
+	socket.on('disconnect_key' + localStorage.user_name, () => {
+		console.log("The boss has left...");
+        if(localStorage.movingOn == 0 && localStorage.is_owner == 'true') {
+            socket.emit("boss_is_dead", {
+                game_name:localStorage.game_name
+            })
+            //calls a mass deleter. Deletes everything...
+            socket.emit('remove_user_from_room', {
+                room_name: localStorage.game_name
+            })
+            localStorage.clear();
+            window.location.replace('../index.html');
+        }
+	})
 
     // function that emits socket to update player list
     var updatePlayers = function(){
@@ -71,19 +90,4 @@ if(socket != undefined) {
         window.location.replace(gamePath);
         //I think that the 'disconnect' fires right after the line above...
     })
-    localStorage.movingOn = 0;// if zero, button isn't pressed. If 1, button has been pressed....
-    socket.on('die', () => {
-        console.log("The boss has left...");
-        if(localStorage.movingOn == 0 && localStorage.is_owner == 'true') {
-            socket.emit("boss_is_dead", {
-                game_name:localStorage.game_name
-            })
-            //calls a mass deleter. Deletes everything...
-            socket.emit('remove_user_from_room', {
-                room_name: localStorage.game_name
-            })
-            localStorage.clear();
-            window.location.replace('../index.html');
-        }
-    });
 }

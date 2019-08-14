@@ -363,6 +363,40 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
+				
+				// If page is lobby
+				if(data.is_lobby){
+					
+					// If owner disconnects on lobby page
+					if(data.is_owner){
+						var owner_is_still_alive = false
+						
+						socket.on('i_am_still_here', {
+								owner_is_still_alive = true
+						})
+						
+						setTimeout(() => {
+							socket.emit('are_you_still_there')
+							
+						}, 1000)
+						
+						setTimeout(() => {
+							if(owner_is_still_alive == false){
+								// Tell users to leave room
+								
+								// deleting database
+								games = db.collection('games')
+								users = db.collection('users')
+								
+								games.deleteOne({'name': data.room_name})
+								users.deleteOne({'game_name': data.room_name})
+							}, 1500)
+						}	
+					}
+				}
+				
+					
+				
 				/* BAD BAD BAD
 				if(data.is_owner){
 					// Telling users to delete local storage and redirect

@@ -363,6 +363,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
+				/* BAD BAD BAD
 				if(data.is_owner){
 					// Telling users to delete local storage and redirect
 					setTimeout(() => {
@@ -376,6 +377,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 					games.deleteOne({'name': data.room_name})
 					users.deleteOne({'game_name': data.room_name})
 				}
+				*/
 			})
 		})
 		

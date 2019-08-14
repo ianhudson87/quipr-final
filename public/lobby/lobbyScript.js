@@ -27,7 +27,7 @@ if(socket != undefined) {
             is_lobby: true,
         })
     })
-    
+
 	//handle dissconnection
 	socket.on('leave_room', () => {
 		localStorage.clear();

@@ -3,9 +3,6 @@ function reactDone(){
 
     window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
 }
-
-var socket = returnSocket()
-
 if(socket !== undefined) {
 
     // Connect to room

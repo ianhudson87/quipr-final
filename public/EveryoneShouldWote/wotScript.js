@@ -11,8 +11,6 @@ function reactDone(){
     setInterval(() => {decTimeAndDisplay()}, 1000);
 }
 
-var socket = returnSocket(0)
-
 // Check for connection
 if(socket !== undefined) {
     console.log('Connected to socket...');

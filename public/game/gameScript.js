@@ -39,10 +39,6 @@ function reactDone() {
     setInterval(() => {decTimeAndDisplay()}, 1000);
 
 }
-
-// Connect to socket.io
-var socket = returnSocket();
-
 // Check for connection
 if(socket !== undefined) {
     console.log("Connected to socket...");

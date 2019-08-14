@@ -376,6 +376,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						
 						socket.on('i_am_still_here', () => {
 							owner_is_still_alive = true
+							console.log('is still here')
 						})
 						
 						setTimeout(() => {
@@ -395,7 +396,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 								games.deleteOne({'name': data.room_name})
 								users.deleteOne({'game_name': data.room_name})
 							}
-						}, 1500)
+						}, 2000)
 					}
 				}
 				

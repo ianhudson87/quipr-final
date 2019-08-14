@@ -13,8 +13,6 @@ function reactDone(){
     
 }
 
-var socket = returnSocket()
-
 if(socket != undefined) {
 
     console.log('Connected to socket...');

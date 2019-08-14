@@ -30,7 +30,13 @@ For source code reference:
 		
 ## TODO
 	
-- [ ] Printin' names all day long takes all day. Print them one by one. ScoreScript stuff.
+- [x] Printin' names all day long takes all day. Print them one by one. ScoreScript stuff.
+
+- [ ] Add the final round to the game
+
+- [ ] Add transitional help text... such as double and tripple value vote rounds. Also, should tell people not to mess with the website as its very buggy
+
+- [ ] We should remove buttons for voting and have users click on the answer they want to wote for.
 
 - [ ] After vote tally, use inc
 
@@ -41,11 +47,11 @@ For source code reference:
 
 - [x] Shuffle res before showPromptAndAnswersWithDelay
 
-- [ ] If owner disconnects from socket and it's not due to a redirect, kill the lobby, send everyone back to index
+- [x] If owner disconnects from socket and it's not due to a redirect, kill the lobby, send everyone back to index
 
-- [ ] Redirect users to correct game page if they load an incorrect page
+- [x] Redirect users to correct game page if they load an incorrect page
 	Same things as join_room. on('connect') send request to get the game stage. Redirect based on the value
 	
-- [x] Make sure users can't start game with only one player in lobby.(Untested)
+- [x] Make sure users can't start game with only one player in lobby.(tested)
 	
 	

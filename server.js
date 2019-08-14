@@ -379,7 +379,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				if(data.is_lobby){
 					
 					// If owner disconnects on lobby page
-					if(data.is_owner){
+					if(data.is_owner == true){
 						
 						console.log('bad owner')
 						

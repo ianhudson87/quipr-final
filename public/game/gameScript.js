@@ -80,7 +80,13 @@ if(socket !== undefined) {
     // when timer runs down to 0 on server side
     socket.on('move_to_voting', () => {
         //console.log("You probably expected the voting pages, but it was I...");
-        window.location.replace('../EveryoneShouldWote/voting.html')
+        if(localStorage.Round != 3) {
+            window.location.replace('../EveryoneShouldWote/voting.html')
+        }
+        //doesn't exist for now, but shall soon!
+        else {
+            window.location.replace('../EveryoneShouldWote/voting3.html');
+        }
     });
 
     //goodness, ian cant put a semicolon at the end of his sentenes!!.

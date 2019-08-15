@@ -13,8 +13,6 @@ function reactDone(){
     
 }
 
-var socket = returnSocket()
-
 if(socket != undefined) {
 
     console.log('Connected to socket...');
@@ -29,7 +27,7 @@ if(socket != undefined) {
             is_lobby: true,
         })
     })
-    
+
 	//handle dissconnection
 	socket.on('leave_room', () => {
 		localStorage.clear();

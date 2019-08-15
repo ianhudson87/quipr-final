@@ -75,7 +75,8 @@ class LikeButton extends React.Component {
       name: "CU_Name",
       className: "dataForm",
       placeholder: "Enter username"
-    }), React.createElement("input", {
+    }), React.createElement("br", null),
+    React.createElement("input", {
       id: "create_game_name_txt",
       onChange: this.HandleCreateGameNameChange,
       type: "text",
@@ -95,7 +96,8 @@ class LikeButton extends React.Component {
       name: "JU_Name",
       className: "dataForm",
       placeholder: "Enter username"
-    }), React.createElement("input", {
+    }), React.createElement("br", null),
+    React.createElement("input", {
       id: "join_game_name_txt",
       onChange: this.HandleJoinGameNameChange,
       type: "text",

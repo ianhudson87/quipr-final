@@ -3,11 +3,8 @@
 
 body{
   background-color: black;
-  padding: 25%;
-  padding-top: 5%;
-  padding-bottom: 0%;
   font-family: "Ubuntu Mono";
-  cursor: url("../def.png"), pointer;
+  text-align: center;
 }
 #GameTitle{
   color:aquamarine;
@@ -16,25 +13,28 @@ h1{
   text-align: center;
   font-size: 50px;
 }
-
 #gameSetup {
   background-color:rgb(73, 73, 73);
-  border-style:dashed;
+  margin-left: 25%;
+  margin-right: 25%;
+  padding:3%;
+  padding-bottom:1%;
+  border-style: dashed;
   border-width: 6px;
   column-count: 2;
   column-gap: 30px;
   column-rule-style: solid;
   border-radius: 15px;
   word-wrap: break-word;
+  text-align: center;
 }
 input{
-  height: 23px;
-  padding: 10px 20px;
+  height: 15px;
+  padding: 2% 2%;
   color:black;
   border:none;
+  margin: 2%;
   border-radius: 4px;
-  margin:10px;
-  margin-left:120px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 button{
@@ -42,8 +42,7 @@ button{
   border:none;
   height: 20px;
   border-radius:3px;
-  margin: 20px;
-  margin-left: 36%;
+  margin:3%;
   font-family: "Ubuntu Mono";
   cursor: url("../tap.png"), pointer;
 }

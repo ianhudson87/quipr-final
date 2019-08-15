@@ -8,6 +8,9 @@ function getPromptFromIdAndDisplay(prompt_id){
 	return prompts[prompt_id];
 }
 
+socket.on("are_you_still_there", () => {
+    socket.emit("i_am_still_here");
+})
 prompts = ["What two words would passengers never want to hear a pilot say?",//I'm drunk, Im drunk 
            "You would never go on a roller coaster called _____",//the decapitator, the decapitater, decapitator, decapitater 
            "The secret to a happy life",//playing Quiplash 

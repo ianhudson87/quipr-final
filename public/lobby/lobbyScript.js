@@ -25,26 +25,12 @@ if(socket != undefined) {
         socket.emit('join_room', {
             room_name: localStorage.game_name,
 			user_name: localStorage.user_name,
-			is_owner: localStorage.is_owner
+            is_owner: localStorage.is_owner,
+            is_lobby: true,
         })
     })
-	
-	localStorage.movingOn = 0;// if zero, button isn't pressed. If 1, button has been pressed....
-	
-	// Handle disconnecting
-	socket.on('disconnect_key' + localStorage.user_name, () => {
-		console.log("The boss has left...");
-        if(localStorage.movingOn == 0 && localStorage.is_owner == 'true') {
-            socket.emit("boss_is_dead", {
-                game_name:localStorage.game_name
-            })
-            //calls a mass deleter. Deletes everything...
-            socket.emit('remove_room', {
-                room_name: localStorage.game_name
-            })
-        }
-	})
-	
+
+	//handle dissconnection
 	socket.on('leave_room', () => {
 		localStorage.clear();
 		window.location.replace('../index.html');
@@ -89,7 +75,6 @@ if(socket != undefined) {
     // Handle start of game
     socket.on('game_has_started', () => {
         console.log('here')
-        localStorage.movingOn = 1;
         localStorage.Round = 1;
         window.location.replace(gamePath);
         //I think that the 'disconnect' fires right after the line above...

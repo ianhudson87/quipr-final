@@ -68,6 +68,7 @@ class Lobii extends React.Component {
         });
     }
   }
+  /*
   showButtons(){
     leftButton.style.visibility = "visible";
     rightButton.style.visibility = "visible";
@@ -76,7 +77,7 @@ class Lobii extends React.Component {
     leftButton.style.visibility = "hidden";
     rightButton.style.visibility = "hidden";
   }
-
+*/
   voteLeft = (e) => {
     e.preventDefault();
     votedLeft();//goes to wotScript.js function
@@ -119,19 +120,22 @@ class Lobii extends React.Component {
                 c("br", null),
                 c("div",{className:"row"},
                     c("div",{className:"column"},
-                        c("p",{id:"answer1"},this.state.Response),
+                        c("p",{id:"answer1", onClick:this.voteLeft},this.state.Response),
                         c("div",{id:"vote1"},voter1List)
                     ),
                     c("div",{className:"column"},
-                        c("p",{id:"answer2"},this.state.Response2),
+                        c("p",{id:"answer2", onClick:this.voteRight},this.state.Response2),
                         c("div",{id:"vote2"},voter2List)
                     )
                 ),
                 c("hr", null),
+                c('h2', null, "Click on answer to wote!")
+                /*
                 c("div", {id: "button_Wrapper"},
                     c("button", {id: "answerLeft", className:"submit_btn", onClick:this.voteLeft}, "Vote-Left"),
                     c("button", {id: "answerRight", className:"submit_btn", onClick:this.voteRight}, "Vote-Right")
                 )
+                */
             )
         )
     );//end of return
@@ -141,5 +145,7 @@ class Lobii extends React.Component {
 const domContainer = document.querySelector('#root');
 ReactDOM.render(c(Lobii), domContainer);
 //creates variables to store references to the buttons..
+/*
 var leftButton = document.getElementById("answerLeft");
 var rightButton = document.getElementById("answerRight");
+*/

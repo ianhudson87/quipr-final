@@ -1,12 +1,13 @@
 /*Find more on Google Fonts.*/
-@import url('https://fonts.googleapis.com/css?family=Nosifer+Caps');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono"');
 
 body{
     background-color: black;
     padding: 25%;
     padding-top: 5%;
     padding-bottom: 0%;
-    font-family: "Nosifer Caps";
+    font-family: "Ubuntu Mono";
+    cursor: url("../def.png"), pointer;
 }
 #GameTitle{
     color:aquamarine;
@@ -18,8 +19,9 @@ button{
     border:none;
     height: 20px;
     border-radius:3px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    visibility:hidden
+    font-family: "Ubuntu Mono";
+    visibility:hidden;
+    cursor: url("../tap.png"), pointer;
 }
 #button_Wrapper{
     text-align: center;
@@ -63,7 +65,7 @@ input{
     border:none;
     border-radius: 4px;
     margin:10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Ubuntu Mono";
     visibility: hidden
 }
 #prompt_display{

@@ -1,12 +1,13 @@
 /*Find more on Google Fonts.*/
-@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono" ');
 
 body{
     background-color: black;
     padding: 25%;
     padding-top: 5%;
     padding-bottom: 0%;
-    font-family: 'Lobster', cursive;
+    font-family: "Ubuntu Mono";
+    cursor: url("../def.png"), pointer;
 }
 #GameTitle{
     color:aquamarine;
@@ -15,6 +16,7 @@ button{
     visibility: hidden;
     margin:20px;
     display: inline-block;
+    cursor: url("../tap.png"), pointer;
 }
 #button_Wrapper{
     text-align: center;

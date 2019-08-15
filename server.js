@@ -366,7 +366,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
 			
-			if(data.is_owner){
+			if(data.is_owner == 'true'){
 				// Set owner might be dead false
 				games = db.collection('games')
 				games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : false}})
@@ -405,7 +405,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 									users = db.collection('users')
 									
 									games.deleteOne({'name': data.room_name})
-									users.deleteOne({'game_name': data.room_name})
+									users.deleteMany({'game_name': data.room_name})
 								}
 							})
 						}, 5000)

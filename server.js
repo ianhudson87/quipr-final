@@ -36,6 +36,8 @@ const second_response_stage_num = 4
 const second_voting_stage_num = 5
 const second_scoreboard_stage_num = 6
 
+const vote_start_time = 3000
+const vote_end_time = 8000
 const time_between_voting_rounds = 13
 
 const voting_time_limit = 5
@@ -134,6 +136,15 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 	}
 	
+	function votingTimersUpdate(){
+		games = db.collection('games')
+		
+		// Find all the games that are on the voting stage and have a timer that is active (timer >= 0). -1 means timer is currently inactive 
+		games.updateMany({ $and:[ { $or:[{'stage': first_voting_stage_num}, {'stage': second_voting_stage_num}]  }, {'timer': {$gt:-1}} ]}, {$inc:{'timer': -1/tickRate}})
+	}
+	
+	setInterval( votingTimersUpdate, 1/tickRate * 1000)
+	
 	// For voting page
 	function showPromptAndAnswersWithDelay(iteration, round_num, game_name, players_array, isVotingFinished){
 		// going to show the question from players_array[iteration][q1_id]
@@ -185,12 +196,18 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		// Show buttons
 		setTimeout(() => {
 			client.in(game_name).emit('show_voting_buttons')
-		}, 3000 + iteration * time_between_voting_rounds * 1000)
+			games = db.collection('games')
+			games.updateOne({'name': game_name}, {$set:{'timer': vote_end_time - vote_start_time}})
+			client.in(game_name).emit('start_timer', {
+				time: (vote_end_time - vote_start_time)/1000
+			})
+		}, vote_start_time + iteration * time_between_voting_rounds * 1000)
 		
 		// Hide buttons
 		setTimeout(() => {
 			client.in(game_name).emit('hide_voting_buttons')
-		}, 8000 + iteration * time_between_voting_rounds * 1000)
+			client.in(game_name).emit('end_timer')
+		}, vote_end_time + iteration * time_between_voting_rounds * 1000)
 		
 		
 		// Tally votes, show who voted for whom, reset voting in db.
@@ -790,13 +807,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		})
 		
 		//////////////////////// VOTING STUFF
-		
-		// Handle request for vote_timer
-		socket.on('vote_timer', () => {
-			client.emit('vote_timer', {
-				timer: time_between_voting_rounds
-			})
-		})
 		
 		// Handle vote for players
 		socket.on('vote', (data) => {

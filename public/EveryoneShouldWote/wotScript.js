@@ -16,7 +16,9 @@ if(socket !== undefined) {
     var timer;
     // set timer to initial count
     socket.on("start_timer", (data) => {
-        window.reactComponent.setTime(data.timer);
+		console.log('here')
+		console.log(data)
+        window.reactComponent.setTime(data.time);
          //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
         timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
     })

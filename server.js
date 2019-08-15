@@ -390,6 +390,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						
 						
 						setTimeout(() => {
+							console.log(data)
 							// refresh games
 							games = db.collection('games')
 							games.find({'name': data.room_name, 'owner_might_be_dead':true}).toArray((err, res) => {

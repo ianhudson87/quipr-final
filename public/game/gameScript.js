@@ -47,7 +47,8 @@ if(socket !== undefined) {
     socket.on('connect', () => {
 		console.log('join_room')
         socket.emit('join_room', {
-            room_name: localStorage.game_name
+            room_name: localStorage.game_name,
+			is_owner: localStorage.is_owner
         })
     })
     

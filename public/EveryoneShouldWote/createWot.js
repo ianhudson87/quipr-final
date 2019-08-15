@@ -119,12 +119,12 @@ class Lobii extends React.Component {
                 c("p", {id: "prompt_display"}, this.state.Question),
                 c("br", null),
                 c("div",{className:"row"},
-                    c("div",{className:"column"},
-                        c("p",{id:"answer1", onClick:this.voteLeft},this.state.Response),
+                    c("div",{className:"column", onClick:this.voteLeft},
+                        c("p",{id:"answer1"},this.state.Response),
                         c("div",{id:"vote1"},voter1List)
                     ),
-                    c("div",{className:"column"},
-                        c("p",{id:"answer2", onClick:this.voteRight},this.state.Response2),
+                    c("div",{className:"column", onClick:this.voteRight},
+                        c("p",{id:"answer2"},this.state.Response2),
                         c("div",{id:"vote2"},voter2List)
                     )
                 ),

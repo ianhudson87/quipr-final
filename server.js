@@ -361,6 +361,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// handle client wanting to join room whenever page refreshes
 		socket.on('join_room', (data) => {
+			console.log(data)
+			
 			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
 			
@@ -376,10 +378,10 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			socket.on('disconnect', () => {
 				console.log('dis')
 				// If page is lobby
+				console.log(data)
 				if(data.is_lobby){
-					
 					// If owner disconnects on lobby page
-					if(data.is_owner == true){
+					if(data.is_owner == 'true'){
 						
 						console.log('bad owner')
 						

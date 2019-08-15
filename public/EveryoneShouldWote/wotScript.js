@@ -48,7 +48,8 @@ if(socket !== undefined) {
 
     // Handle showing voting buttons
     socket.on('show_voting_buttons', () => {
-        window.reactComponent.showButtons();
+        // no butotns lol
+    //    window.reactComponent.showButtons();
     });
 
     function votedLeft() {
@@ -69,7 +70,7 @@ if(socket !== undefined) {
     socket.on('hide_voting_buttons', () => {
         console.log('Ono. The buttons have gone into hiding.')
         window.reactComponent.setTime(0);
-        window.reactComponent.hideButtons();
+        // window.reactComponent.hideButtons();
         clearInterval(timer);
     });
 

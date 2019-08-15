@@ -68,6 +68,7 @@ class Lobii extends React.Component {
         });
     }
   }
+  /*
   showButtons(){
     leftButton.style.visibility = "visible";
     rightButton.style.visibility = "visible";
@@ -76,7 +77,7 @@ class Lobii extends React.Component {
     leftButton.style.visibility = "hidden";
     rightButton.style.visibility = "hidden";
   }
-
+*/
   voteLeft = (e) => {
     e.preventDefault();
     votedLeft();//goes to wotScript.js function
@@ -144,5 +145,7 @@ class Lobii extends React.Component {
 const domContainer = document.querySelector('#root');
 ReactDOM.render(c(Lobii), domContainer);
 //creates variables to store references to the buttons..
+/*
 var leftButton = document.getElementById("answerLeft");
 var rightButton = document.getElementById("answerRight");
+*/

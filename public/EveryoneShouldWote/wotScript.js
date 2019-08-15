@@ -2,13 +2,6 @@
 function reactDone(){
     console.log("react is done loading");
     window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
-
-    socket.emit("vote_timer", {
-        game_name:localStorage.game_name
-    })
-
-    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
-    setInterval(() => {decTimeAndDisplay()}, 1000);
 }
 
 // Check for connection
@@ -20,17 +13,18 @@ if(socket !== undefined) {
             room_name: localStorage.game_name
         })
     })
-
+    var timer;
     // set timer to initial count
-    socket.on("vote_timer", (data) => {
+    socket.on("start_timer", (data) => {
         window.reactComponent.setTime(data.timer);
+         //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
+        timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
     })
-    
+
     //decrement time by uno;
     function decTimeAndDisplay(){
         window.reactComponent.decTime();
     }
-
 
     // Handle displaying prompt for voting
     socket.on('show_prompt', (data) => {
@@ -74,7 +68,9 @@ if(socket !== undefined) {
     //hides the two buttons...
     socket.on('hide_voting_buttons', () => {
         console.log('Ono. The buttons have gone into hiding.')
+        window.reactComponent.setTime(0);
         window.reactComponent.hideButtons();
+        clearInterval(timer);
     });
 
     // Handling moving to scoreboard

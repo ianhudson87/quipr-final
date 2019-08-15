@@ -16,7 +16,7 @@ function reactDone(){
 if(socket != undefined) {
 
     console.log('Connected to socket...');
-
+	console.log(window.location)
     // Connect to room
     socket.on('connect', () => {
         console.log('connect')

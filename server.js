@@ -356,47 +356,57 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			db.collection('games').deleteMany({})
 		})
 		
+		
+		///////////////////////////////
+		
 		// handle client wanting to join room whenever page refreshes
 		socket.on('join_room', (data) => {
 			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
+			
+			if(data.is_owner){
+				// Set owner might be dead false
+				games = db.collection('games')
+				games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : false}})
+			}
+			
+			var disconnect_key = 'dis_key' + data.user_name
 			
 			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
 				console.log('dis')
 				// If page is lobby
 				if(data.is_lobby){
-					console.log('islobby')
 					
-					var owner_is_still_alive = false
 					// If owner disconnects on lobby page
-					if(data.is_owner){
+					if(data.is_owner == true){
 						
-						console.log('isowner')
+						console.log('bad owner')
 						
-						socket.on('i_am_still_here', () => {
-							owner_is_still_alive = true
-							console.log('is still here')
-						})
+						games = db.collection('games')
+						games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : true}})
 						
-						setTimeout(() => {
-							socket.emit('are_you_still_there')
-							
-						}, 1000)
 						
 						setTimeout(() => {
-							if(owner_is_still_alive == false){
-								// Tell users to leave room
-								client.in(data.room_name).emit('leave_room')
-								
-								// deleting database
-								games = db.collection('games')
-								users = db.collection('users')
-								
-								games.deleteOne({'name': data.room_name})
-								users.deleteOne({'game_name': data.room_name})
-							}
-						}, 2000)
+							// refresh games
+							games = db.collection('games')
+							games.find({'name': data.room_name, 'owner_might_be_dead':true}).toArray((err, res) => {
+								if(res.length == 0){
+									// All is good, owner has returned to family
+								}
+								else{
+									// owner has abondonded children
+									client.in(data.room_name).emit('leave_room')
+									
+									// deleting database
+									games = db.collection('games')
+									users = db.collection('users')
+									
+									games.deleteOne({'name': data.room_name})
+									users.deleteOne({'game_name': data.room_name})
+								}
+							})
+						}, 5000)
 					}
 				}
 				
@@ -448,7 +458,8 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 								name: data.game_name,
 								stage: 0,
 								timer: 0,
-								responses_done: 0
+								responses_done: 0,
+								owner_might_be_dead: false
 							})
 							
 							users.insertOne({

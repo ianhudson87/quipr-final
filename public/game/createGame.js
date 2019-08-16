@@ -9,7 +9,7 @@ class Lobii extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        gameName:"ph",
+        gameName:"",
         roundNumber:0,
         questionNumber:0,
         timer:0,

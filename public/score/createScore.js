@@ -9,7 +9,7 @@ class Lobii extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        gameName:"ph",
+        gameName:"",
         scoresList: [""],
         roundNumber:0
     };
@@ -30,7 +30,7 @@ class Lobii extends React.Component {
   }
 
   componentDidMount(){
-    //reactDone();//announces to the socket script that React is done mounting (god knows what tho...)
+    reactDone();//announces to the socket script that React is done mounting (god knows what tho...)
   }
 
   //renders to the "html" page to the web to your computer~...

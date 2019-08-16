@@ -684,6 +684,20 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 		})
 
+		socket.on('get_voting_rights', (data) => {
+			games = db.collection('games');
+			games.find({'name': data.game_name}).toArray((err, res) => {
+				//res is the game array. gotta use res[0] to find array...
+
+				socket.emit("here_dem_voting_rights", {
+					vote_prompt_id: res[0].vote_prompt_id,
+					response_one: res[0].response_one,
+					response_two: res[0].response_two,
+				})
+				
+			})
+		})
+
 		// Handle user requesting to get number of responses they have completed
 		socket.on('get_num_reponses_completed', (data) => {
 			users = db.collection('users')

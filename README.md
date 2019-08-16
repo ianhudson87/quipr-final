@@ -49,7 +49,7 @@ For source code reference:
 
 - [x] If owner disconnects from socket and it's not due to a redirect, kill the lobby, send everyone back to index
 
-- [x] Redirect users to correct game page if they load an incorrect page
+- [] Redirect users to correct game page if they load an incorrect page
 	Same things as join_room. on('connect') send request to get the game stage. Redirect based on the value
 	
 - [x] Make sure users can't start game with only one player in lobby.(tested)

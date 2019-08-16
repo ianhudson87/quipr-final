@@ -150,7 +150,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		// going to show the question from players_array[iteration][q1_id]
 		
 		var player1_name = players_array[iteration].name
-		
+		games = db.collection('games');
 		//show prompt
 		setTimeout(() => {
 			// clear response text area and hide who voted for whom
@@ -158,19 +158,30 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			client.in(game_name).emit('hide_users_votes')
 			
 			var attribute = 'r' + round_num + '_q1_id'
+			//add prompt id to the database... for refresh proofing purposes
+			games.updateOne({'name': game_name}, {$set: {'vote_prompt_id':players_array[iteration][attribute] }});
+			//send prompt id to players.
 			client.in(game_name).emit('show_prompt', {
 				prompt_id: players_array[iteration][attribute]
 			})
 		}, 1000 + iteration * time_between_voting_rounds * 1000)
+
+		
 		
 		// show response1
 		setTimeout(() => {
 			var attribute = 'r' + round_num + '_q1_response'
+
+			//add reponseone to database. for refreshing...
+			games.updateOne({'name': game_name},{$set: {'response_one': players_array[iteration][attribute]}});
+			//send response 1 to player...
 			client.in(game_name).emit('show_response1', {
 				response_txt: players_array[iteration][attribute]
 			})
 		}, 2500 + iteration * time_between_voting_rounds * 1000)
 		
+		
+
 		// Find player with the same response as their q2
 		var x = 0
 		var search_attribute = 'r' + round_num + '_q2_id'
@@ -188,6 +199,9 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// Show response2
 		setTimeout(() => {
+			//add reponsetwo to database. for refreshing...
+			games.updateOne({'name': game_name},{$set: {'response_two': player2_response}});
+			//send response 2 to player...
 			client.in(game_name).emit('show_response2', {
 				response_txt: player2_response
 			})
@@ -378,7 +392,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		
 		// handle client wanting to join room whenever page refreshes
 		socket.on('join_room', (data) => {
-			console.log(data)
+			// console.log(data)
 			
 			console.log('User joined room: ' + data.room_name)
 			socket.join(data.room_name)
@@ -393,21 +407,21 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
-				console.log('dis')
+				// console.log('dis')
 				// If page is lobby
-				console.log(data)
+				// console.log(data)
 				if(data.is_lobby){
 					// If owner disconnects on lobby page
 					if(data.is_owner == 'true'){
 						
-						console.log('bad owner')
+						// console.log('bad owner')
 						
 						games = db.collection('games')
 						games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : true}})
 						
 						
 						setTimeout(() => {
-							console.log(data)
+							// console.log(data)
 							// refresh games
 							games = db.collection('games')
 							games.find({'name': data.room_name, 'owner_might_be_dead':true}).toArray((err, res) => {
@@ -479,7 +493,11 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 								stage: 0,
 								timer: 0,
 								responses_done: 0,
-								owner_might_be_dead: false
+								owner_might_be_dead: false,
+								//these three exist for the sake of making the voting page refresh-proof
+								vote_prompt_id: -1,
+								response_one: "",
+								response_two: "",
 							})
 							
 							users.insertOne({
@@ -667,6 +685,25 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			})
 		})
 		
+		socket.on('get_voting_rights', (data) => {
+			games = db.collection('games');
+			//console.log("viting rights... first step...");
+			games.find({'name': data.game_name}).toArray((err, res) => {
+				//res is the game array. gotta use res[0] to find array...
+				//console.log("voting rights... second step");
+				//console.log(res[0].vote_prompt_id)
+				if(res[0].vote_prompt_id != -1) {
+					//console.log("voting rights... final step..")
+					socket.emit("here_dem_voting_rights", {
+						vote_prompt_id: res[0].vote_prompt_id,
+						response_one: res[0].response_one,
+						response_two: res[0].response_two,
+						time: res[0].timer
+					})
+				}
+			})
+		})
+
 		// Handle user requesting to get number of responses they have completed
 		socket.on('get_num_reponses_completed', (data) => {
 			users = db.collection('users')

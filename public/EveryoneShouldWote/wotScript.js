@@ -2,7 +2,22 @@
 function reactDone(){
     console.log("react is done loading");
     window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
+    socket.emit('get_voting_rights', {
+        game_name: localStorage.game_name,
+    })
 }
+
+socket.on("here_dem_voting_rights", (data) => {
+    //sets the visuals to what the voting should be on...
+    console.log("reachde here...")
+    window.reactComponent.setQuestions(getPromptFromIdAndDisplay(data.vote_prompt_id));
+    window.reactComponent.setResponses(data.response_one, 1);
+    window.reactComponent.setResponses(data.response_two, 2);
+    //timer stuff
+    window.reactComponent.setTime(data.time);
+    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
+    timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
+})
 
 // Check for connection
 if(socket !== undefined) {

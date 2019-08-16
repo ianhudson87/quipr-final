@@ -32,13 +32,13 @@ For source code reference:
 	
 - [x] Printin' names all day long takes all day. Print them one by one. ScoreScript stuff.
 
-- [ ] Add the final round to the game
+- [-] Add the final round to the game (This is a pipe dream).
 
 - [ ] Add transitional help text... such as double and tripple value vote rounds. Also, should tell people not to mess with the website as its very buggy
 
-- [ ] We should remove buttons for voting and have users click on the answer they want to wote for.
+- [x] We should remove buttons for voting and have users click on the answer they want to wote for.
 
-- [ ] After vote tally, use inc
+- [x] After vote tally, use inc
 
 - [x] On response page:
 	users can reload page and see a textbox/response that they aren't supposed to

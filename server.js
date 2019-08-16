@@ -698,7 +698,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						vote_prompt_id: res[0].vote_prompt_id,
 						response_one: res[0].response_one,
 						response_two: res[0].response_two,
-						time: res[0].timer
 					})
 				}
 			})

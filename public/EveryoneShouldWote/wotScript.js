@@ -14,9 +14,7 @@ socket.on("here_dem_voting_rights", (data) => {
     window.reactComponent.setResponses(data.response_one, 1);
     window.reactComponent.setResponses(data.response_two, 2);
     //timer stuff
-    window.reactComponent.setTime(data.time);
-    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
-    timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
+    window.reactComponent.setTime("Time Unavailable... better vote quick!");
 })
 
 // Check for connection

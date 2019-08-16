@@ -2,7 +2,8 @@
 function reactDone(){
     console.log("react is done loading");
     window.reactComponent.setGameName(localStorage.game_name, localStorage.Round);
-    socket.emit('get_voting_rights', {
+    // Get voting information on page reload
+	socket.emit('get_voting_rights', {
         game_name: localStorage.game_name,
     })
 }
@@ -10,13 +11,26 @@ function reactDone(){
 socket.on("here_dem_voting_rights", (data) => {
     //sets the visuals to what the voting should be on...
     console.log("reachde here...")
-    window.reactComponent.setQuestions(getPromptFromIdAndDisplay(data.vote_prompt_id));
-    window.reactComponent.setResponses(data.response_one, 1);
-    window.reactComponent.setResponses(data.response_two, 2);
+	console.log(data)
+	
+	if(data.vote_prompt_id != -1) {
+		window.reactComponent.setQuestions(getPromptFromIdAndDisplay(data.vote_prompt_id));
+		window.reactComponent.setResponses(data.response_one, 1);
+		window.reactComponent.setResponses(data.response_two, 2);
+	}
+
     //timer stuff
-    window.reactComponent.setTime(data.time);
-    //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
-    timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
+	if(data.time >= 0){
+		// If timer is in valid state, show it
+		document.getElementById('timer_display').style.visibility = 'visible'
+		window.reactComponent.setTime(data.time);
+		//set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
+		timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
+	}
+	else{
+		// If timer is invalid (voting time is over), hide it
+		document.getElementById('timer_display').style.visibility = 'hidden'
+	}
 })
 
 // Check for connection
@@ -28,14 +42,20 @@ if(socket !== undefined) {
             room_name: localStorage.game_name
         })
     })
+	
+	// When voting starts on server, show the tiemr
     var timer;
     // set timer to initial count
     socket.on("start_timer", (data) => {
-		console.log('here')
-		console.log(data)
+		document.getElementById('timer_display').style.visibility = 'visible'
         window.reactComponent.setTime(data.time);
          //set a time interval stuff. calls the function just above, atleast at the time of writing this.¯\_(ツ)_/¯
         timer = setInterval(() => { decTimeAndDisplay()}, 1000 );
+    })
+	
+	// When voting ends on server, hide the timer
+	socket.on("end_timer", (data) => {
+		document.getElementById('timer_display').style.visibility = 'hidden'
     })
 
     //decrement time by uno;

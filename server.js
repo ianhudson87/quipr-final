@@ -40,8 +40,6 @@ const vote_start_time = 3000
 const vote_end_time = 8000
 const time_between_voting_rounds = 13
 
-const voting_time_limit = 5
-
 const max_question_id = 144
 
 const time_between_showing_users_score = 1 // For scoreboard
@@ -211,7 +209,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		setTimeout(() => {
 			client.in(game_name).emit('show_voting_buttons')
 			games = db.collection('games')
-			games.updateOne({'name': game_name}, {$set:{'timer': vote_end_time - vote_start_time}})
+			games.updateOne({'name': game_name}, {$set:{'timer': (vote_end_time - vote_start_time)/1000}})
 			client.in(game_name).emit('start_timer', {
 				time: (vote_end_time - vote_start_time)/1000
 			})
@@ -309,6 +307,9 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		games = db.collection('games')
 		users = db.collection('users')
 		
+		console.log(game_name)
+		games.updateOne({'name': game_name}, {$set: {'timer': -1}})
+		
 		games.find({'name': game_name}).toArray((err, res) => {
 			// res = games with same game_name
 			// stage originally on responses, need to change to voting
@@ -402,8 +403,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				games = db.collection('games')
 				games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : false}})
 			}
-			
-			var disconnect_key = 'dis_key' + data.user_name
 			
 			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
@@ -684,25 +683,6 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 			
 			})
 		})
-		
-		socket.on('get_voting_rights', (data) => {
-			games = db.collection('games');
-			//console.log("viting rights... first step...");
-			games.find({'name': data.game_name}).toArray((err, res) => {
-				//res is the game array. gotta use res[0] to find array...
-				//console.log("voting rights... second step");
-				//console.log(res[0].vote_prompt_id)
-				if(res[0].vote_prompt_id != -1) {
-					//console.log("voting rights... final step..")
-					socket.emit("here_dem_voting_rights", {
-						vote_prompt_id: res[0].vote_prompt_id,
-						response_one: res[0].response_one,
-						response_two: res[0].response_two,
-						time: res[0].timer
-					})
-				}
-			})
-		})
 
 		// Handle user requesting to get number of responses they have completed
 		socket.on('get_num_reponses_completed', (data) => {
@@ -844,6 +824,24 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 		})
 		
 		//////////////////////// VOTING STUFF
+		
+		socket.on('get_voting_rights', (data) => {
+			console.log('got voting rights?')
+			games = db.collection('games');
+			//console.log("viting rights... first step...");
+			games.find({'name': data.game_name}).toArray((err, res) => {
+				//res is the game array. gotta use res[0] to find array...
+				//console.log("voting rights... second step");
+				console.log(res[0].vote_prompt_id)
+				console.log("voting rights... final step..")
+				socket.emit("here_dem_voting_rights", {
+					vote_prompt_id: res[0].vote_prompt_id,
+					response_one: res[0].response_one,
+					response_two: res[0].response_two,
+					time: res[0].timer
+				})
+			})
+		})
 		
 		// Handle vote for players
 		socket.on('vote', (data) => {

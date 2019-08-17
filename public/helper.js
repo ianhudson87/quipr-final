@@ -1,7 +1,72 @@
 function returnSocket(){
 	var socket_server_ip = ['http://quipr-final.herokuapp.com/', 'https://cb99026a.ngrok.io', 'http://localhost:4000']
-	return io.connect(socket_server_ip[0]);
+	return io.connect(socket_server_ip[2]);
 }
+
+function getStageAndRefreshIfNeeded(stage, local_storage_game_name){
+	console.log(stage)
+	// If your game_name isn't set and you're on the index page, you're fine
+	if ((typeof local_storage_game_name !== 'undefined') || stage != 'index'){
+		
+		var stages = [[1,4], [2,5], [3,6], [0]] // stages[0] = game_stages; stages[1] = voting_stages; stages[2] = scoreboard_stages; stages[3] = lobby_stages
+		var valid_stages
+		
+		if(stage == 'game'){
+			valid_stages = stages[0]
+		}
+		else if(stage == 'voting'){
+			valid_stages = stages[1]
+		}
+		else if(stage == 'scoreboard'){
+			valid_stages = stages[2]
+		}
+		else if(stage == 'lobby'){
+			valid_stages = stages[3]
+		}
+		else{
+			valid_stages = []
+		}
+		
+		socket.emit('get_game_stage_for_redirect', {
+			game_name: local_storage_game_name
+		})
+		
+		// Handle localstorage game_name not existing in database
+		socket.on('clear_storage_and_go_to_index', () => {
+			localStorage.clear()
+			window.location.replace('/index.html')
+		})
+
+		// Handle getting the stage of the game. If stage is ok (based on parameter), don't redirect. Else, redirect
+		socket.on('redirect_to_page', (data) => {
+			console.log(valid_stages)
+			if(valid_stages.includes(data.stage)){
+				// redirect not needed
+			}
+			else{
+				if(stages[0].includes(data.stage)){
+					window.location.replace('/game/game.html')
+				}
+				else if(stages[1].includes(data.stage)){
+					window.location.replace('/EveryoneShouldWote/voting.html')
+				}
+				else if(stages[2].includes(data.stage)){
+					window.location.replace('/score/scoreboard.html')
+				}
+				else if(stages[3].includes(data.stage)){
+					window.location.replace('/lobby/lobby.html')
+				}
+				else{
+					window.location.replace('/index.html')
+				}
+			}
+				
+		})
+	}
+	
+}
+
+
 
 function getPromptFromIdAndDisplay(prompt_id){
     //now it returns a string instead of printing to website by default.

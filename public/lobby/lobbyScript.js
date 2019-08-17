@@ -1,5 +1,6 @@
 var gamePath = '../game/game.html'
 
+getStageAndRefreshIfNeeded('lobby', localStorage.game_name)
 
 //any part that needs to reference the DOM must go in this function below or a Socket "ON" functions.
 function reactDone(){

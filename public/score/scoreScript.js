@@ -1,3 +1,5 @@
+getStageAndRefreshIfNeeded('scoreboard', localStorage.game_name)
+
 function reactDone(){
     console.log("react is done loading");
 

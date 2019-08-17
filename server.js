@@ -379,17 +379,32 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	client.on('connect', function(socket){ 
 			
 		// TESTING ONLY
-		socket.on('a', (data) => {
-			moveToVotingAndLoop(data.game_name)
+									socket.on('a', (data) => {
+										moveToVotingAndLoop(data.game_name)
+									})
+									
+									socket.on('b', () => {
+										db.collection('users').deleteMany({})
+										db.collection('games').deleteMany({})
+									})
+		//////////////////////////////////////
+		
+		// Handle request whenever user loads a page and may need to be redirected
+		socket.on('get_game_stage_for_redirect', (data) => {
+			games = db.collection('games')
+			games.find({'name': data.game_name}).toArray((err, res) => {
+				if(res.length == 0){
+					// Game name does not exist in database
+					socket.emit('clear_storage_and_go_to_index')
+				}
+				else{
+					console.log(res[0].stage)
+					socket.emit('redirect_to_page', {
+						stage: res[0].stage
+					})
+				}
+			})
 		})
-		
-		socket.on('b', () => {
-			db.collection('users').deleteMany({})
-			db.collection('games').deleteMany({})
-		})
-		
-		
-		///////////////////////////////
 		
 		// handle client wanting to join room whenever page refreshes
 		socket.on('join_room', (data) => {

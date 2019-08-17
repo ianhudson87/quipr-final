@@ -1,3 +1,5 @@
+getStageAndRefreshIfNeeded('index', localStorage.game_name)
+
 if(socket !== undefined){
     console.log('Connected to socket!');
     //create button is pressed

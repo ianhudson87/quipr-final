@@ -143,7 +143,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 	
 	setInterval( votingTimersUpdate, 1/tickRate * 1000)
 	
-	// For voting 
+	// For voting page
 	function showPromptAndAnswersWithDelay(iteration, round_num, game_name, players_array, isVotingFinished){
 		// going to show the question from players_array[iteration][q1_id]
 		
@@ -418,7 +418,7 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 				games = db.collection('games')
 				games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : false}})
 			}
-
+			
 			// Handle owner player disconnecting
 			socket.on('disconnect', () => {
 				// console.log('dis')
@@ -432,10 +432,29 @@ MongoClient.connect('mongodb+srv://oof:Oooofers1!@quipr-test1-exc7k.mongodb.net/
 						
 						games = db.collection('games')
 						games.updateOne({'name': data.room_name}, {$set:{'owner_might_be_dead' : true}})
-						//IT WORKS!
-						time1 = new TimeBomb(ownerAbandon, null, 5000);
-						let timer = new Timer(time1);
-						timer.start();
+						
+						
+						setTimeout(() => {
+							// console.log(data)
+							// refresh games
+							games = db.collection('games')
+							games.find({'name': data.room_name, 'owner_might_be_dead':true}).toArray((err, res) => {
+								if(res.length == 0){
+									// All is good, owner has returned to family
+								}
+								else{
+									// owner has abondonded children
+									client.in(data.room_name).emit('leave_room')
+									
+									// deleting database
+									games = db.collection('games')
+									users = db.collection('users')
+									
+									games.deleteOne({'name': data.room_name})
+									users.deleteMany({'game_name': data.room_name})
+								}
+							})
+						}, 5000)
 					}
 				}
 				

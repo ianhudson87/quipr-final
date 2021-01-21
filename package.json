@@ -22,7 +22,7 @@
     "git": "^0.1.5",
     "mongodb": "^3.3.0-beta2",
     "ngrok": "^3.2.4",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
